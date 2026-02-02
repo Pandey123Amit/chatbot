@@ -1,0 +1,156 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  AGENT
+  CUSTOMER
+}
+
+enum TicketStatus {
+  OPEN
+  ASSIGNED
+  IN_PROGRESS
+  WAITING
+  RESOLVED
+  CLOSED
+}
+
+enum TicketPriority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum Channel {
+  CHAT
+  EMAIL
+  WHATSAPP
+}
+
+enum AgentStatus {
+  ONLINE
+  OFFLINE
+  BUSY
+}
+
+enum ChatSessionStatus {
+  WAITING
+  ACTIVE
+  ENDED
+  CONVERTED
+}
+
+model User {
+  id            String      @id @default(cuid())
+  email         String      @unique
+  password      String
+  name          String
+  role          Role        @default(CUSTOMER)
+  avatar        String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  // Agent specific
+  agentStatus   AgentStatus @default(OFFLINE)
+  maxChats      Int         @default(5)
+
+  // Relations
+  assignedTickets   Ticket[]      @relation("AssignedAgent")
+  createdTickets    Ticket[]      @relation("TicketCreator")
+  messages          Message[]
+  chatSessionsAsAgent    ChatSession[] @relation("ChatAgent")
+  chatSessionsAsCustomer ChatSession[] @relation("ChatCustomer")
+
+  @@index([role])
+  @@index([agentStatus])
+}
+
+model Ticket {
+  id            String         @id @default(cuid())
+  ticketNumber  Int            @unique @default(autoincrement())
+  subject       String
+  description   String?
+  status        TicketStatus   @default(OPEN)
+  priority      TicketPriority @default(MEDIUM)
+  channel       Channel
+  isLocked      Boolean        @default(false)
+
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  resolvedAt    DateTime?
+
+  // Relations
+  customerId    String
+  customer      User           @relation("TicketCreator", fields: [customerId], references: [id])
+
+  assignedToId  String?
+  assignedTo    User?          @relation("AssignedAgent", fields: [assignedToId], references: [id])
+
+  messages      Message[]
+  chatSession   ChatSession?   @relation(fields: [chatSessionId], references: [id])
+  chatSessionId String?        @unique
+
+  @@index([status])
+  @@index([assignedToId])
+  @@index([customerId])
+  @@index([channel])
+}
+
+model Message {
+  id          String    @id @default(cuid())
+  content     String
+  isInternal  Boolean   @default(false)
+  createdAt   DateTime  @default(now())
+
+  // Relations
+  ticketId    String
+  ticket      Ticket    @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+
+  senderId    String
+  sender      User      @relation(fields: [senderId], references: [id])
+
+  @@index([ticketId])
+  @@index([createdAt])
+}
+
+model ChatSession {
+  id          String            @id @default(cuid())
+  status      ChatSessionStatus @default(WAITING)
+  startedAt   DateTime          @default(now())
+  endedAt     DateTime?
+
+  // Relations
+  customerId  String
+  customer    User        @relation("ChatCustomer", fields: [customerId], references: [id])
+
+  agentId     String?
+  agent       User?       @relation("ChatAgent", fields: [agentId], references: [id])
+
+  chatMessages ChatMessage[]
+  ticket       Ticket?
+
+  @@index([status])
+  @@index([agentId])
+  @@index([customerId])
+}
+
+model ChatMessage {
+  id            String      @id @default(cuid())
+  content       String
+  senderType    String      // "CUSTOMER" | "AGENT" | "SYSTEM"
+  senderId      String?
+  createdAt     DateTime    @default(now())
+
+  chatSessionId String
+  chatSession   ChatSession @relation(fields: [chatSessionId], references: [id], onDelete: Cascade)
+
+  @@index([chatSessionId])
+  @@index([createdAt])
+}
