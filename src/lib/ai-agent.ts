@@ -1,13 +1,9 @@
 import { ChatOpenAI, OpenAIEmbeddings } from "@langchain/openai";
-import { HNSWLib } from "@langchain/community/vectorstores/hnswlib";
-import { Document } from "@langchain/core/documents";
 import { StringOutputParser } from "@langchain/core/output_parsers";
 import { ChatPromptTemplate, MessagesPlaceholder } from "@langchain/core/prompts";
 import { RunnableSequence, RunnablePassthrough } from "@langchain/core/runnables";
 import { AIMessage, HumanMessage, BaseMessage } from "@langchain/core/messages";
 import { groceryKnowledgeBase, escalationTriggers } from "./knowledge-base";
-import path from "path";
-import fs from "fs";
 
 // Types
 export interface AIAgentResponse {
@@ -23,10 +19,17 @@ export interface ChatHistory {
   content: string;
 }
 
+interface DocumentWithEmbedding {
+  content: string;
+  topic: string;
+  question: string;
+  embedding: number[];
+}
+
 // Singleton instances
-let vectorStore: HNSWLib | null = null;
+let documentStore: DocumentWithEmbedding[] | null = null;
 let llm: ChatOpenAI | null = null;
-let embeddings: OpenAIEmbeddings | null = null;
+let embeddingsModel: OpenAIEmbeddings | null = null;
 
 // Initialize the LLM
 function initializeLLM(apiKey: string) {
@@ -43,59 +46,79 @@ function initializeLLM(apiKey: string) {
 
 // Initialize embeddings
 function initializeEmbeddings(apiKey: string) {
-  if (!embeddings) {
-    embeddings = new OpenAIEmbeddings({
+  if (!embeddingsModel) {
+    embeddingsModel = new OpenAIEmbeddings({
       openAIApiKey: apiKey,
       modelName: "text-embedding-3-small",
     });
   }
-  return embeddings;
+  return embeddingsModel;
 }
 
-// Initialize or load vector store with knowledge base
-async function initializeVectorStore(apiKey: string): Promise<HNSWLib> {
-  if (vectorStore) {
-    return vectorStore;
+// Cosine similarity between two vectors
+function cosineSimilarity(a: number[], b: number[]): number {
+  let dotProduct = 0;
+  let normA = 0;
+  let normB = 0;
+  for (let i = 0; i < a.length; i++) {
+    dotProduct += a[i] * b[i];
+    normA += a[i] * a[i];
+    normB += b[i] * b[i];
+  }
+  return dotProduct / (Math.sqrt(normA) * Math.sqrt(normB));
+}
+
+// Initialize document store with embeddings
+async function initializeDocumentStore(apiKey: string): Promise<DocumentWithEmbedding[]> {
+  if (documentStore) {
+    return documentStore;
   }
 
   const emb = initializeEmbeddings(apiKey);
-  const vectorStorePath = path.join(process.cwd(), "data", "vectorstore");
 
-  // Check if vector store already exists
-  if (fs.existsSync(vectorStorePath)) {
-    try {
-      vectorStore = await HNSWLib.load(vectorStorePath, emb);
-      console.log("Loaded existing vector store");
-      return vectorStore;
-    } catch {
-      console.log("Failed to load existing vector store, creating new one");
-    }
-  }
-
-  // Create documents from knowledge base
-  const documents = groceryKnowledgeBase.map(
-    (item) =>
-      new Document({
-        pageContent: `Question: ${item.question}\nAnswer: ${item.answer}`,
-        metadata: {
-          topic: item.topic,
-          question: item.question,
-        },
-      })
+  // Create documents and their embeddings
+  const contents = groceryKnowledgeBase.map(
+    (item) => `Question: ${item.question}\nAnswer: ${item.answer}`
   );
 
-  // Create vector store
-  vectorStore = await HNSWLib.fromDocuments(documents, emb);
+  // Get embeddings for all documents in one batch call
+  const embeddings = await emb.embedDocuments(contents);
 
-  // Save vector store for future use
-  const dataDir = path.join(process.cwd(), "data");
-  if (!fs.existsSync(dataDir)) {
-    fs.mkdirSync(dataDir, { recursive: true });
-  }
-  await vectorStore.save(vectorStorePath);
-  console.log("Created and saved new vector store");
+  documentStore = groceryKnowledgeBase.map((item, i) => ({
+    content: contents[i],
+    topic: item.topic,
+    question: item.question,
+    embedding: embeddings[i],
+  }));
 
-  return vectorStore;
+  console.log("Created in-memory document store with embeddings");
+  return documentStore;
+}
+
+// Retrieve similar documents
+async function retrieveSimilarDocuments(
+  query: string,
+  apiKey: string,
+  k: number = 3
+): Promise<{ content: string; topic: string }[]> {
+  const store = await initializeDocumentStore(apiKey);
+  const emb = initializeEmbeddings(apiKey);
+
+  // Get embedding for the query
+  const queryEmbedding = await emb.embedQuery(query);
+
+  // Calculate similarities and sort
+  const scored = store.map((doc) => ({
+    doc,
+    score: cosineSimilarity(queryEmbedding, doc.embedding),
+  }));
+
+  scored.sort((a, b) => b.score - a.score);
+
+  return scored.slice(0, k).map((s) => ({
+    content: s.doc.content,
+    topic: s.doc.topic,
+  }));
 }
 
 // Check if message should trigger escalation
@@ -150,7 +173,7 @@ export async function getAIResponse(
   if (escalationCheck.shouldEscalate) {
     return {
       response:
-        "I understand you'd like to speak with a human agent. Let me connect you with one of our support team members right away.",
+        "I understand you'd like to speak with someone from our team. Please visit our contact page at https://www.remotestate.com/contactus to get in touch directly. Our team will be happy to assist you!",
       shouldEscalate: true,
       escalationReason: escalationCheck.reason,
       confidence: 1,
@@ -161,42 +184,39 @@ export async function getAIResponse(
   try {
     // Initialize components
     const model = initializeLLM(openAIKey);
-    const store = await initializeVectorStore(openAIKey);
 
     // Retrieve relevant documents
-    const retriever = store.asRetriever({
-      k: 3, // Get top 3 relevant documents
-      searchType: "similarity",
-    });
-
-    const relevantDocs = await retriever.invoke(userMessage);
+    const relevantDocs = await retrieveSimilarDocuments(userMessage, openAIKey, 3);
     const context = relevantDocs
-      .map((doc) => doc.pageContent)
+      .map((doc) => doc.content)
       .join("\n\n---\n\n");
-    const sources = relevantDocs.map((doc) => doc.metadata.topic as string);
+    const sources = relevantDocs.map((doc) => doc.topic);
 
     // Create the prompt template
-    const systemPrompt = `You are a helpful customer support AI assistant for a 30-minute grocery delivery app. Your name is "GroceryBot".
+    const systemPrompt = `You are a helpful support AI assistant for RemoteState, a software engineering company. Your name is "RemoteStateBot".
 
 Your primary goals are:
-1. Help customers with their questions about orders, delivery, payments, and app usage
-2. Be friendly, professional, and empathetic
+1. Help visitors with questions about RemoteState's services, technologies, pricing, engagement models, and company information
+2. Be friendly, professional, and knowledgeable
 3. Provide accurate information based on the knowledge base
 4. Know when to escalate to a human agent
 
 Guidelines:
-- Always greet the customer warmly on first interaction
+- Always greet visitors warmly on first interaction
 - Use the provided context to answer questions accurately
-- If you're not confident about an answer (less than 70% sure), admit it and offer to connect them with a human agent
+- If you're not confident about an answer (less than 70% sure), admit it and offer to connect them with a human representative
 - Keep responses concise but helpful (2-4 sentences typically)
-- For order-specific issues (checking status, refunds for specific orders), you'll need to escalate to a human agent who can access the order system
+- For project-specific inquiries (custom quotes, specific technical requirements), direct them to our contact page at https://www.remotestate.com/contactus
 - Never make up information not in the context
-- If the customer seems frustrated or the issue is complex, offer to escalate
+- If the visitor seems interested in starting a project, encourage them to visit https://www.remotestate.com/contactus or email [email protected]
+- If the visitor seems frustrated or the issue is complex, direct them to https://www.remotestate.com/contactus
+- If the visitor writes in a language other than English, respond helpfully and direct them to https://www.remotestate.com/contactus where our team can assist them in their preferred language
+- IMPORTANT: Never use markdown formatting in your responses. Write plain text only. Do not use markdown links like [text](url). Just write the URL directly as plain text.
 
 Context from knowledge base:
 {context}
 
-Important: If you cannot answer the question confidently based on the context provided, respond with a message that includes the phrase "ESCALATE_TO_HUMAN" at the end. This will automatically connect the customer with a human agent.`;
+Important: If you cannot answer the question confidently based on the context provided, respond with a message that includes the phrase "ESCALATE_TO_HUMAN" at the end. This will automatically connect the visitor with a human representative.`;
 
     const prompt = ChatPromptTemplate.fromMessages([
       ["system", systemPrompt],
@@ -230,7 +250,7 @@ Important: If you cannot answer the question confidently based on the context pr
     return {
       response: shouldEscalate
         ? cleanResponse +
-          "\n\nLet me connect you with a human agent who can better assist you."
+          "\n\nFor further assistance, please reach out to our team at https://www.remotestate.com/contactus"
         : cleanResponse,
       shouldEscalate,
       escalationReason: shouldEscalate
@@ -252,22 +272,15 @@ Important: If you cannot answer the question confidently based on the context pr
   }
 }
 
-// Function to rebuild vector store (useful when knowledge base is updated)
-export async function rebuildVectorStore(apiKey: string): Promise<boolean> {
+// Function to rebuild document store (useful when knowledge base is updated)
+export async function rebuildDocumentStore(apiKey: string): Promise<boolean> {
   try {
-    vectorStore = null; // Clear existing store
-    const vectorStorePath = path.join(process.cwd(), "data", "vectorstore");
-
-    // Delete existing store
-    if (fs.existsSync(vectorStorePath)) {
-      fs.rmSync(vectorStorePath, { recursive: true });
-    }
-
+    documentStore = null; // Clear existing store
     // Reinitialize
-    await initializeVectorStore(apiKey);
+    await initializeDocumentStore(apiKey);
     return true;
   } catch (error) {
-    console.error("Error rebuilding vector store:", error);
+    console.error("Error rebuilding document store:", error);
     return false;
   }
 }
@@ -280,7 +293,7 @@ export function getQuickResponse(message: string): string | null {
   if (
     lowerMessage.match(/^(hi|hello|hey|good morning|good afternoon|good evening)/)
   ) {
-    return "Hello! Welcome to GroceryMart support. I'm GroceryBot, your AI assistant. How can I help you today? You can ask me about orders, delivery, payments, or any other questions!";
+    return "Hello! Welcome to RemoteState support. I'm RemoteStateBot, your AI assistant. How can I help you today? You can ask me about our services, technologies, pricing, or anything else!";
   }
 
   // Thank you responses
@@ -290,7 +303,7 @@ export function getQuickResponse(message: string): string | null {
 
   // Goodbye responses
   if (lowerMessage.match(/(bye|goodbye|see you|take care)/)) {
-    return "Thank you for chatting with us! Have a great day, and happy shopping! 🛒";
+    return "Thank you for chatting with us! Have a great day. Feel free to reach out anytime at [email protected]!";
   }
 
   return null;

@@ -1,179 +1,183 @@
-// Knowledge base for 30-minute grocery delivery helpdesk
+// Knowledge base for RemoteState helpdesk
 export const groceryKnowledgeBase = [
-  // Delivery related
+  // Services related
   {
-    topic: "delivery_time",
-    question: "How long does delivery take?",
-    answer: "Our standard delivery time is 30 minutes or less! Once your order is confirmed, our delivery partners pick up your groceries from the nearest store and deliver them fresh to your doorstep. Track your order in real-time through the app."
+    topic: "services_overview",
+    question: "What services does RemoteState offer?",
+    answer: "RemoteState offers a comprehensive range of software engineering services: Mobile App Development (iOS, Android, React Native, Flutter), AI & ML Solutions (Generative AI, AI Agent Development, LLM Implementation), Scalable Team Solutions (Offshore Development Center, Dedicated Teams, IT Staff Augmentation), UI/UX Design, and SaaS Development. We cover 120+ technologies and have launched 140+ products across 25 markets."
   },
   {
-    topic: "delivery_time",
-    question: "Why is my delivery late?",
-    answer: "We apologize for the delay! Deliveries can occasionally be delayed due to high demand, traffic conditions, or weather. You can track your delivery in real-time through the app. If your order is significantly delayed (more than 15 minutes past the estimated time), you may be eligible for a refund or credit. Would you like me to check your order status?"
+    topic: "mobile_development",
+    question: "Do you build mobile apps?",
+    answer: "Yes! We specialize in mobile app development across all major platforms. Our expertise includes iOS Development (Swift), Android Development, React Native for cross-platform apps, and Flutter. We build everything from MVPs to enterprise-grade mobile applications, focusing on performance, user experience, and scalability."
   },
   {
-    topic: "delivery_area",
-    question: "What areas do you deliver to?",
-    answer: "We deliver to most urban and suburban areas within our service zones. Enter your address in the app to check if we deliver to your location. We're constantly expanding our delivery areas to serve more customers."
+    topic: "ai_ml_services",
+    question: "What AI and ML solutions do you provide?",
+    answer: "We offer cutting-edge AI & ML solutions including: Generative AI development, AI Agent Development, LLM (Large Language Model) Implementation, and Agentic AI solutions. Our team helps businesses integrate AI into their products and workflows, leveraging the latest technologies to deliver intelligent, scalable solutions."
   },
   {
-    topic: "delivery_fee",
-    question: "How much is the delivery fee?",
-    answer: "Delivery fee depends on your location and order size. Standard delivery fee ranges from $2.99 to $5.99. Orders above $35 qualify for FREE delivery! Premium members get free delivery on all orders."
+    topic: "saas_development",
+    question: "Can you help build a SaaS product?",
+    answer: "Absolutely! We specialize in SaaS Development with a 72-hour deployment capability. Our team handles the full stack — from architecture and development to deployment and scaling. We work with your timezone for seamless collaboration and provide access to skilled developers who understand SaaS-specific challenges like multi-tenancy, billing, and scalability."
   },
   {
-    topic: "delivery_instructions",
-    question: "Can I add delivery instructions?",
-    answer: "Yes! You can add special delivery instructions during checkout. Include gate codes, apartment numbers, or specific drop-off locations. You can also choose contactless delivery where we'll leave your groceries at your door."
-  },
-
-  // Order related
-  {
-    topic: "order_tracking",
-    question: "How do I track my order?",
-    answer: "Track your order in real-time through the app! Go to 'My Orders' and tap on your active order to see live tracking. You'll see when your order is being prepared, when the delivery partner picks it up, and their live location as they head to you."
-  },
-  {
-    topic: "order_cancel",
-    question: "How do I cancel my order?",
-    answer: "You can cancel your order within 2 minutes of placing it for a full refund. After that, if the order hasn't been picked up yet, you can still cancel but may incur a small cancellation fee. Go to 'My Orders' > Select order > 'Cancel Order'. Once the delivery partner has picked up your order, cancellation is no longer possible."
-  },
-  {
-    topic: "order_modify",
-    question: "Can I modify my order after placing it?",
-    answer: "Order modifications are only possible within the first 2 minutes after placing your order. After that, you'll need to cancel (if eligible) and place a new order. We recommend double-checking your cart before confirming!"
-  },
-  {
-    topic: "order_minimum",
-    question: "Is there a minimum order amount?",
-    answer: "Yes, the minimum order amount is $10. Orders below this amount will have a small order fee of $2 added. We recommend adding a few more items to reach the minimum and avoid the extra fee!"
-  },
-  {
-    topic: "order_history",
-    question: "Where can I see my past orders?",
-    answer: "View your order history in the app under 'My Orders' > 'Past Orders'. You can see all your previous orders, reorder items quickly, and download receipts for any order."
+    topic: "ui_ux_design",
+    question: "Do you offer UI/UX design services?",
+    answer: "Yes! Our UI/UX Design services include AI-integrated design workflows, cross-platform UX optimization, location-specific UX tailoring, and modern 3D visual elements. We focus on creating standout user experiences that combine beautiful design with practical usability."
   },
 
-  // Payment related
+  // Team & hiring related
   {
-    topic: "payment_methods",
-    question: "What payment methods do you accept?",
-    answer: "We accept all major payment methods: Credit/Debit cards (Visa, MasterCard, Amex), Digital wallets (Apple Pay, Google Pay), PayPal, and Cash on Delivery (in select areas). You can save multiple payment methods in your account for quick checkout."
+    topic: "dedicated_teams",
+    question: "Can I hire a dedicated development team?",
+    answer: "Yes! We offer Scalable Team Solutions including: Dedicated Development Teams that work exclusively on your project, Offshore Development Center (ODC) setup, and IT Staff Augmentation to extend your existing team. Our teams consist of senior-level engineering talent, and we offer flexible scaling without long-term commitments."
   },
   {
-    topic: "payment_failed",
-    question: "My payment failed, what should I do?",
-    answer: "If your payment failed, please try: 1) Check if your card has sufficient funds, 2) Verify your card details are correct, 3) Try a different payment method, 4) Contact your bank if the issue persists. If money was deducted but order wasn't placed, it will be refunded within 5-7 business days."
+    topic: "staff_augmentation",
+    question: "How does IT staff augmentation work?",
+    answer: "Our IT Staff Augmentation service lets you extend your existing team with our skilled developers. You get senior-level engineers who integrate seamlessly with your workflow. We offer flexible scaling — ramp up or down based on your needs without long-term commitments. We also provide a 14-day risk-free trial so you can evaluate the fit."
   },
   {
-    topic: "refund",
-    question: "How do I get a refund?",
-    answer: "Refunds are processed for: cancelled orders, missing items, damaged items, or wrong items delivered. Report issues within 24 hours through the app: 'My Orders' > Select order > 'Report Issue'. Refunds are credited within 5-7 business days to your original payment method."
-  },
-  {
-    topic: "promo_code",
-    question: "How do I apply a promo code?",
-    answer: "Apply promo codes at checkout! Look for the 'Apply Promo Code' or 'Add Coupon' field on the payment page. Enter your code and tap 'Apply'. The discount will be reflected in your order total. Note: Only one promo code can be used per order."
+    topic: "offshore_development",
+    question: "Do you have an offshore development center?",
+    answer: "Yes! We operate an Offshore Development Center (ODC) with offices in San Francisco, CA and Noida, India. This dual-location setup ensures timezone overlap for effective collaboration. Our ODC model gives you access to a large pool of senior engineering talent at competitive rates while maintaining quality and communication standards."
   },
 
-  // Product related
+  // Technology & expertise
   {
-    topic: "out_of_stock",
-    question: "What happens if an item is out of stock?",
-    answer: "If an item is out of stock, our shopper will contact you to suggest a replacement. You can: 1) Accept the suggested replacement, 2) Choose a different replacement, or 3) Remove the item and get a refund for it. Set your substitution preferences in the app settings."
+    topic: "tech_stack",
+    question: "What technologies do you work with?",
+    answer: "We work with 120+ technologies. Our primary stack includes Go, Node.js, and React, but we cover the full spectrum: cloud-native architecture, DevSecOps practices, microservices & containers, mobile technologies (Swift, Kotlin, React Native, Flutter), AI/ML frameworks, and modern frontend/backend technologies. We choose the best technology for each project's specific needs."
   },
   {
-    topic: "product_quality",
-    question: "What if I receive poor quality or damaged items?",
-    answer: "We're sorry if you received subpar items! Report the issue within 24 hours through the app: 'My Orders' > Select order > 'Report Issue' > Select affected items. Include photos if possible. You'll receive a full refund or credit for the affected items."
-  },
-  {
-    topic: "product_return",
-    question: "Can I return items?",
-    answer: "Due to the perishable nature of groceries, we don't accept physical returns. However, if you're unsatisfied with any item, report it through the app within 24 hours and we'll issue a refund or credit. Take photos of the issue for faster processing."
+    topic: "cloud_devops",
+    question: "Do you offer cloud and DevOps services?",
+    answer: "Yes! We practice cloud-native architecture and DevSecOps by default. Our approach includes resilient microservices architecture, containerization, stable CI/CD processes, and security-by-design principles. We help businesses build, deploy, and scale applications on modern cloud infrastructure with velocity and reliability."
   },
 
-  // Account related
+  // Pricing & engagement
   {
-    topic: "account_create",
-    question: "How do I create an account?",
-    answer: "Download our app from the App Store or Google Play. Tap 'Sign Up' and enter your email/phone number. Verify with the OTP sent to you. Add your delivery address and payment method. You're all set to order!"
+    topic: "pricing",
+    question: "What is your pricing model?",
+    answer: "We offer predictable, transparent pricing tailored to your engagement type. Whether it's a fixed-scope project, dedicated team, or staff augmentation, we provide clear pricing with no hidden costs. We also offer a 14-day risk-free trial for team engagements so you can evaluate our work before committing. Contact us at [email protected] for a custom quote."
   },
   {
-    topic: "password_reset",
-    question: "I forgot my password, how do I reset it?",
-    answer: "Tap 'Login' > 'Forgot Password'. Enter your registered email/phone number. We'll send you a reset link/OTP. Follow the instructions to create a new password. If you don't receive the email, check your spam folder."
+    topic: "trial_period",
+    question: "Do you offer a trial period?",
+    answer: "Yes! We offer a 14-day risk-free trial for our team engagement models. This lets you work with our developers, evaluate the quality of work, communication, and cultural fit before making any long-term commitment. If you're not satisfied, there's no obligation to continue."
   },
   {
-    topic: "account_delete",
-    question: "How do I delete my account?",
-    answer: "To delete your account, go to Settings > Account > Delete Account. Note that this action is irreversible and you'll lose your order history, saved addresses, and any credits. Pending orders must be completed or cancelled first."
-  },
-
-  // Membership/Subscription
-  {
-    topic: "premium_membership",
-    question: "What is Premium membership?",
-    answer: "Premium membership gives you: FREE delivery on all orders, exclusive discounts and deals, priority customer support, early access to sales, and no service fees. It costs $9.99/month or $79.99/year (save 33%). Cancel anytime!"
-  },
-  {
-    topic: "cancel_membership",
-    question: "How do I cancel my Premium membership?",
-    answer: "Cancel your Premium membership anytime through the app: Settings > Subscription > Cancel Membership. Your benefits continue until the end of your current billing period. No refunds for partial months, but you keep access until expiry."
+    topic: "engagement_models",
+    question: "What engagement models do you offer?",
+    answer: "We offer flexible engagement models to suit different needs: 1) Fixed-Scope Projects — for well-defined projects with clear deliverables, 2) Dedicated Development Teams — a team that works exclusively on your product, 3) IT Staff Augmentation — extend your team with our developers, 4) Offshore Development Center — a full ODC setup. All models come with flexible scaling and no long-term lock-in."
   },
 
-  // Technical issues
+  // Company & credentials
   {
-    topic: "app_crash",
-    question: "The app keeps crashing, what should I do?",
-    answer: "Try these steps: 1) Close and reopen the app, 2) Check for app updates in your store, 3) Clear app cache (Settings > Apps > Our App > Clear Cache), 4) Restart your phone, 5) Uninstall and reinstall the app. If the issue persists, please contact support with your device model and OS version."
+    topic: "about_company",
+    question: "Tell me about RemoteState",
+    answer: "RemoteState was founded in 2020 to help founders and enterprises ship reliable software faster. We combine product thinking with rigorous engineering to create standout user experiences. Key stats: 140+ products launched, 25 markets served, 98% client retention rate, and 5x faster delivery compared to industry baseline. We serve clients like Pepsi, Dell, IKEA, Prudential, and Indian Railways."
   },
   {
-    topic: "app_login",
-    question: "I can't login to my account",
-    answer: "If you're having login issues: 1) Check your internet connection, 2) Verify your email/phone number is correct, 3) Try 'Forgot Password' to reset, 4) Clear app cache and try again, 5) Make sure you're using the correct login method (email/phone/social). Contact support if you're still locked out."
-  },
-
-  // Contact and support
-  {
-    topic: "contact_support",
-    question: "How do I contact customer support?",
-    answer: "You can reach us through: 1) In-app chat (24/7), 2) Email: support@groceryapp.com, 3) Phone: 1-800-GROCERY (Mon-Sat 8am-10pm). For order issues, the fastest way is through the app's 'Help' section on your order page."
+    topic: "clients",
+    question: "Who are your clients?",
+    answer: "We've worked with both Fortune 500 enterprises and innovative startups. Our notable clients include Pepsi, Dell, IKEA, Prudential, Indian Railways, Concord, Nedl, Neptune, Education Planner, Athena Exams, Bicycle Health, COI Energy, Circonomy, Precium, Heal, Logiwise, To & From, Nvest, Renee, Together, and Vorto. We've served 25 markets with a 98% client retention rate."
   },
   {
-    topic: "feedback",
-    question: "How do I give feedback or suggestions?",
-    answer: "We love hearing from you! Share feedback through: 1) Rate your order after delivery, 2) App Store/Play Store reviews, 3) Email: feedback@groceryapp.com, 4) In-app: Settings > Give Feedback. Your suggestions help us improve!"
+    topic: "company_values",
+    question: "What makes RemoteState different?",
+    answer: "RemoteState stands out through four core principles: 1) Outcome-Driven Delivery — we focus on measurable impact, not just code, 2) Secure by Design — DevSecOps is integrated from day one, 3) Architecture for Scale — resilient microservices built for growth, 4) Velocity Without Chaos — stable CI/CD processes ensure fast, reliable delivery. We deliver 5x faster than the industry baseline while maintaining a 98% client retention rate."
   },
 
-  // Special services
+  // Contact & support
   {
-    topic: "schedule_delivery",
-    question: "Can I schedule a delivery for later?",
-    answer: "Yes! You can schedule deliveries up to 7 days in advance. At checkout, select 'Schedule for Later' and choose your preferred date and time slot. Scheduled orders can be modified or cancelled up to 2 hours before the delivery time."
+    topic: "contact_info",
+    question: "How do I contact RemoteState?",
+    answer: "You can reach us through multiple channels: Email: [email protected], Phone (USA): +1-210-972-5958, Phone (India): +91-977-676-7574. Our offices are in San Francisco, CA 94102 and Noida, Uttar Pradesh 201304. You can also reach out through our website at remotestate.com."
   },
   {
-    topic: "gift_order",
-    question: "Can I send groceries as a gift to someone else?",
-    answer: "Absolutely! You can send grocery orders to any address within our delivery area. At checkout, enter the recipient's address and add a gift message if you'd like. The receipt won't show prices if you select 'This is a gift' option."
+    topic: "office_locations",
+    question: "Where are your offices located?",
+    answer: "We have two office locations: 1) San Francisco, CA 94102, USA — serving North American clients with local presence, 2) Noida, Uttar Pradesh 201304, India — our development center with a large engineering team. This dual-location setup provides timezone overlap and ensures seamless collaboration across geographies."
   },
   {
-    topic: "business_account",
-    question: "Do you offer business accounts?",
-    answer: "Yes! Our Business accounts offer: bulk ordering, monthly invoicing, dedicated account manager, volume discounts, and multiple delivery addresses. Contact business@groceryapp.com or visit our website's Business section to sign up."
+    topic: "get_started",
+    question: "How do I get started with RemoteState?",
+    answer: "Getting started is easy! 1) Reach out to us at [email protected] or call +1-210-972-5958 (USA) / +91-977-676-7574 (India), 2) We'll discuss your project requirements and goals, 3) We propose the best engagement model and team composition, 4) Start with a 14-day risk-free trial for team engagements. We can have your project kicked off quickly — our SaaS teams can deploy in as fast as 72 hours."
+  },
+
+  // Project process
+  {
+    topic: "project_timeline",
+    question: "How long does a typical project take?",
+    answer: "Project timelines vary based on scope and complexity. For SaaS products, we can deploy in as fast as 72 hours for initial setups. MVPs typically take 4-8 weeks. Full product development varies by complexity. We deliver 5x faster than the industry baseline thanks to our streamlined processes and experienced teams. Contact us to discuss your specific project timeline."
+  },
+  {
+    topic: "project_process",
+    question: "What is your development process?",
+    answer: "Our development process is outcome-driven: 1) Discovery & Planning — understanding your goals, requirements, and constraints, 2) Architecture & Design — building scalable, secure architecture with great UX, 3) Agile Development — iterative sprints with continuous delivery, 4) Quality Assurance — rigorous testing integrated throughout, 5) Deployment & Support — CI/CD pipelines for reliable releases. We practice DevSecOps and maintain transparent communication throughout."
+  },
+  {
+    topic: "communication",
+    question: "How do you handle communication and project updates?",
+    answer: "We prioritize transparent, regular communication: daily standups, weekly progress reports, and real-time access to project management tools. Our dual-office setup (San Francisco + Noida) ensures timezone overlap for live collaboration. We adapt to your preferred communication tools — Slack, Teams, Jira, or others. You'll always know where your project stands."
+  },
+
+  // Quality & security
+  {
+    topic: "quality_assurance",
+    question: "How do you ensure code quality?",
+    answer: "Quality is built into our process: code reviews on every PR, automated testing (unit, integration, e2e), CI/CD pipelines for consistent deployments, DevSecOps security practices, and senior-level engineers on every project. We also conduct regular architecture reviews and performance audits. Our 98% client retention rate reflects our commitment to quality."
+  },
+  {
+    topic: "security_practices",
+    question: "How do you handle security?",
+    answer: "Security is a core principle at RemoteState — we're 'Secure by Design'. We integrate DevSecOps practices from day one, including: secure coding standards, automated security scanning in CI/CD, regular vulnerability assessments, data protection compliance, and secure infrastructure practices. We build resilient systems that protect your business and users."
+  },
+
+  // Support & maintenance
+  {
+    topic: "post_launch_support",
+    question: "Do you provide support after launch?",
+    answer: "Yes! We provide comprehensive post-launch support including: bug fixes and maintenance, performance monitoring and optimization, feature enhancements, infrastructure management, and scaling support as your user base grows. We offer flexible support plans tailored to your needs. Our goal is to be your long-term technology partner."
+  },
+  {
+    topic: "scaling",
+    question: "Can you help scale my product?",
+    answer: "Absolutely! Scaling is one of our core strengths. Our 'Architecture for Scale' approach means we build with growth in mind from the start — resilient microservices, containerization, cloud-native infrastructure, and performance optimization. Whether you need to scale your team, your infrastructure, or both, we provide flexible solutions without long-term commitments."
+  },
+
+  // Industry expertise
+  {
+    topic: "industries",
+    question: "What industries do you serve?",
+    answer: "We serve a wide range of industries including: Healthcare (Bicycle Health, Heal), Energy (COI Energy), Finance & Insurance (Prudential, Nvest), Education (Education Planner, Athena Exams), Retail & FMCG (Pepsi, IKEA), Technology (Dell), Logistics (Vorto, Indian Railways), and Sustainability (Circonomy). Our diverse experience across 25 markets helps us bring cross-industry insights to every project."
+  },
+  {
+    topic: "startup_services",
+    question: "Do you work with startups?",
+    answer: "Yes! We love working with startups. Our services are particularly well-suited for startups: fast MVP development, flexible team scaling as you grow, the 14-day risk-free trial to minimize risk, predictable pricing, and experienced teams that have launched 140+ products. We understand the startup pace and can help you go from idea to launch quickly."
+  },
+
+  // Certifications & recognition
+  {
+    topic: "certifications",
+    question: "What certifications or recognition does RemoteState have?",
+    answer: "RemoteState is recognized across leading platforms including Google Reviews, Clutch, GoodFirms, and AmbitionBox. Our track record speaks for itself: 140+ products launched, 98% client retention rate, and trusted by enterprises like Pepsi, Dell, IKEA, and Prudential. We maintain high standards of engineering excellence and client satisfaction."
   }
 ];
 
 // Categories for the knowledge base
 export const knowledgeCategories = [
-  { id: "delivery", name: "Delivery", icon: "truck" },
-  { id: "order", name: "Orders", icon: "shopping-cart" },
-  { id: "payment", name: "Payments & Refunds", icon: "credit-card" },
-  { id: "product", name: "Products", icon: "package" },
-  { id: "account", name: "Account", icon: "user" },
-  { id: "membership", name: "Membership", icon: "star" },
-  { id: "technical", name: "Technical Issues", icon: "settings" },
-  { id: "contact", name: "Contact & Support", icon: "headphones" }
+  { id: "services", name: "Services", icon: "code" },
+  { id: "team", name: "Team & Hiring", icon: "users" },
+  { id: "technology", name: "Technology", icon: "cpu" },
+  { id: "pricing", name: "Pricing & Engagement", icon: "credit-card" },
+  { id: "company", name: "About RemoteState", icon: "building" },
+  { id: "contact", name: "Contact & Support", icon: "headphones" },
+  { id: "process", name: "Process & Quality", icon: "settings" },
+  { id: "industries", name: "Industries", icon: "globe" }
 ];
 
 // Escalation triggers - keywords/phrases that should escalate to human agent
