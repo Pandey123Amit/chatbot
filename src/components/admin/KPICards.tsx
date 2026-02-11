@@ -12,9 +12,9 @@ export function KPICards({ stats }: KPICardsProps) {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
       <StatsCard
-        title="Total Open Tickets"
+        title="Open Tickets"
         value={stats.openTickets}
-        description={`${stats.totalTickets} total tickets`}
+        description={`${stats.inProgressTickets} in progress`}
         icon={Ticket}
       />
       <StatsCard
@@ -30,8 +30,8 @@ export function KPICards({ stats }: KPICardsProps) {
         icon={Clock}
       />
       <StatsCard
-        title="Online Agents"
-        value={stats.onlineAgents}
+        title="Agents Online"
+        value={`${stats.onlineAgents}/${stats.totalAgents}`}
         description="Available for chat"
         icon={Users}
       />

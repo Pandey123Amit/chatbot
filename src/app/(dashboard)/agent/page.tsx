@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState } from 'react';
 import { TopBar } from '@/components/dashboard/TopBar';
 import { StatsCard } from '@/components/dashboard/StatsCard';
 import { TicketList } from '@/components/tickets/TicketList';
@@ -11,6 +12,22 @@ import { Ticket, CheckCircle, Clock, MessageCircle } from 'lucide-react';
 export default function AgentDashboard() {
   const router = useRouter();
   const { data: tickets, isLoading } = useTickets({ assignedToMe: 'true' });
+  const [activeChats, setActiveChats] = useState(0);
+
+  useEffect(() => {
+    async function fetchActiveChats() {
+      try {
+        const res = await fetch('/api/chat');
+        if (res.ok) {
+          const data = await res.json();
+          setActiveChats(data.chatSessions?.length || 0);
+        }
+      } catch (error) {
+        console.error('Failed to fetch active chats:', error);
+      }
+    }
+    fetchActiveChats();
+  }, []);
 
   const openTickets = tickets?.filter(
     (t) => ['OPEN', 'ASSIGNED', 'IN_PROGRESS'].includes(t.status)
@@ -40,8 +57,8 @@ export default function AgentDashboard() {
           />
           <StatsCard
             title="Active Chats"
-            value={0}
-            description="Go online to receive chats"
+            value={activeChats}
+            description={activeChats === 0 ? 'Go online to receive chats' : `${activeChats} live conversation${activeChats !== 1 ? 's' : ''}`}
             icon={MessageCircle}
           />
         </div>

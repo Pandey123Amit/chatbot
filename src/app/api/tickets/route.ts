@@ -16,6 +16,7 @@ export async function GET(req: NextRequest) {
     const status = searchParams.get('status');
     const channel = searchParams.get('channel');
     const assignedToMe = searchParams.get('assignedToMe');
+    const search = searchParams.get('search');
 
     const where: any = {};
 
@@ -34,6 +35,14 @@ export async function GET(req: NextRequest) {
 
     if (channel) {
       where.channel = channel;
+    }
+
+    if (search) {
+      where.OR = [
+        { subject: { contains: search, mode: 'insensitive' } },
+        { description: { contains: search, mode: 'insensitive' } },
+        { customer: { name: { contains: search, mode: 'insensitive' } } },
+      ];
     }
 
     const tickets = await prisma.ticket.findMany({

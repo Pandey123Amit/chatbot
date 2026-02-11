@@ -1,14 +1,14 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/auth";
-import { rebuildVectorStore } from "@/lib/ai-agent";
+import { rebuildDocumentStore } from "@/lib/ai-agent";
 
-// POST /api/ai-chat/rebuild - Rebuild the vector store (admin only)
+// POST /api/ai-chat/rebuild - Rebuild the document store (admin only)
 export async function POST(request: NextRequest) {
   try {
     const session = await getServerSession(authOptions);
 
-    // Only allow admins to rebuild vector store
+    // Only allow admins to rebuild document store
     if (!session?.user || session.user.role !== "ADMIN") {
       return NextResponse.json(
         { error: "Unauthorized - Admin access required" },
@@ -24,21 +24,21 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const success = await rebuildVectorStore(apiKey);
+    const success = await rebuildDocumentStore(apiKey);
 
     if (success) {
       return NextResponse.json({
-        message: "Vector store rebuilt successfully",
+        message: "Document store rebuilt successfully",
         status: "success",
       });
     } else {
       return NextResponse.json(
-        { error: "Failed to rebuild vector store" },
+        { error: "Failed to rebuild document store" },
         { status: 500 }
       );
     }
   } catch (error) {
-    console.error("Error rebuilding vector store:", error);
+    console.error("Error rebuilding document store:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }

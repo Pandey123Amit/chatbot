@@ -84,10 +84,23 @@ export interface ApiResponse<T> {
 export interface DashboardStats {
   totalTickets: number;
   openTickets: number;
+  inProgressTickets: number;
   resolvedTickets: number;
   avgResponseTime: number;
   onlineAgents: number;
+  totalAgents: number;
   ticketsPerAgent: Record<string, number>;
+}
+
+// Notification
+export interface Notification {
+  id: string;
+  type: 'TICKET_ASSIGNED' | 'CUSTOMER_REPLY' | 'STATUS_CHANGE';
+  title: string;
+  message: string;
+  createdAt: string;
+  ticketId?: string;
+  read: boolean;
 }
 
 // Input types

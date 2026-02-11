@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useState, useCallback } from 'react';
 import { Bell, Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -12,6 +13,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { AgentStatusIndicator } from './AgentStatusIndicator';
 import { useAuth } from '@/hooks/useAuth';
+import type { Notification } from '@/types';
 
 interface TopBarProps {
   title: string;
@@ -22,6 +24,39 @@ interface TopBarProps {
 
 export function TopBar({ title, showSearch, onSearch, children }: TopBarProps) {
   const { isAgent } = useAuth();
+  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [unreadCount, setUnreadCount] = useState(0);
+
+  const fetchNotifications = useCallback(async () => {
+    try {
+      const res = await fetch('/api/notifications');
+      if (res.ok) {
+        const data = await res.json();
+        setNotifications(data.notifications || []);
+        setUnreadCount(data.unreadCount || 0);
+      }
+    } catch {
+      // Silently fail - notifications are non-critical
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchNotifications();
+    const interval = setInterval(fetchNotifications, 30000); // refresh every 30s
+    return () => clearInterval(interval);
+  }, [fetchNotifications]);
+
+  const formatTime = (dateStr: string) => {
+    const date = new Date(dateStr);
+    const now = new Date();
+    const diffMs = now.getTime() - date.getTime();
+    const diffMin = Math.floor(diffMs / 60000);
+    if (diffMin < 1) return 'just now';
+    if (diffMin < 60) return `${diffMin}m ago`;
+    const diffHr = Math.floor(diffMin / 60);
+    if (diffHr < 24) return `${diffHr}h ago`;
+    return `${Math.floor(diffHr / 24)}d ago`;
+  };
 
   return (
     <div className="border-b bg-background">
@@ -50,31 +85,36 @@ export function TopBar({ title, showSearch, onSearch, children }: TopBarProps) {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" size="icon" className="relative">
               <Bell className="h-5 w-5" />
-              <Badge
-                variant="destructive"
-                className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center"
-              >
-                3
-              </Badge>
+              {unreadCount > 0 && (
+                <Badge
+                  variant="destructive"
+                  className="absolute -top-1 -right-1 h-5 w-5 p-0 flex items-center justify-center"
+                >
+                  {unreadCount > 99 ? '99+' : unreadCount}
+                </Badge>
+              )}
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="w-80">
-            <DropdownMenuItem>
-              <div className="flex flex-col">
-                <span className="font-medium">New ticket assigned</span>
-                <span className="text-sm text-muted-foreground">
-                  Ticket #1234 has been assigned to you
-                </span>
-              </div>
-            </DropdownMenuItem>
-            <DropdownMenuItem>
-              <div className="flex flex-col">
-                <span className="font-medium">Customer replied</span>
-                <span className="text-sm text-muted-foreground">
-                  New message on ticket #1232
-                </span>
-              </div>
-            </DropdownMenuItem>
+            {notifications.length === 0 ? (
+              <DropdownMenuItem disabled>
+                <span className="text-sm text-muted-foreground">No notifications</span>
+              </DropdownMenuItem>
+            ) : (
+              notifications.slice(0, 5).map((notification) => (
+                <DropdownMenuItem key={notification.id}>
+                  <div className="flex flex-col gap-0.5">
+                    <span className="font-medium">{notification.title}</span>
+                    <span className="text-sm text-muted-foreground">
+                      {notification.message}
+                    </span>
+                    <span className="text-xs text-muted-foreground">
+                      {formatTime(notification.createdAt)}
+                    </span>
+                  </div>
+                </DropdownMenuItem>
+              ))
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
       </div>

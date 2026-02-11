@@ -21,14 +21,21 @@ export async function GET(req: NextRequest) {
     const [
       totalTickets,
       openTickets,
+      inProgressTickets,
       resolvedToday,
       onlineAgents,
+      totalAgents,
       agents,
     ] = await Promise.all([
       prisma.ticket.count(),
       prisma.ticket.count({
         where: {
           status: { in: ['OPEN', 'ASSIGNED', 'IN_PROGRESS', 'WAITING'] },
+        },
+      }),
+      prisma.ticket.count({
+        where: {
+          status: 'IN_PROGRESS',
         },
       }),
       prisma.ticket.count({
@@ -43,6 +50,11 @@ export async function GET(req: NextRequest) {
           agentStatus: 'ONLINE',
         },
       }),
+      prisma.user.count({
+        where: {
+          role: 'AGENT',
+        },
+      }),
       prisma.user.findMany({
         where: { role: 'AGENT' },
         select: {
@@ -51,6 +63,43 @@ export async function GET(req: NextRequest) {
         },
       }),
     ]);
+
+    // Calculate real average response time
+    // Find tickets that have at least one agent reply, compute time between ticket creation and first agent message
+    const ticketsWithFirstReply = await prisma.ticket.findMany({
+      where: {
+        messages: {
+          some: {
+            sender: { role: 'AGENT' },
+          },
+        },
+      },
+      select: {
+        createdAt: true,
+        messages: {
+          where: {
+            sender: { role: 'AGENT' },
+          },
+          orderBy: { createdAt: 'asc' },
+          take: 1,
+          select: { createdAt: true },
+        },
+      },
+      take: 100,
+      orderBy: { createdAt: 'desc' },
+    });
+
+    let avgResponseTime = 0;
+    if (ticketsWithFirstReply.length > 0) {
+      const totalMinutes = ticketsWithFirstReply.reduce((sum, ticket) => {
+        if (ticket.messages.length > 0) {
+          const diffMs = new Date(ticket.messages[0].createdAt).getTime() - new Date(ticket.createdAt).getTime();
+          return sum + diffMs / (1000 * 60); // convert to minutes
+        }
+        return sum;
+      }, 0);
+      avgResponseTime = Math.round(totalMinutes / ticketsWithFirstReply.length);
+    }
 
     // Get ticket counts per agent separately
     const ticketCounts: Record<string, number> = {};
@@ -67,9 +116,11 @@ export async function GET(req: NextRequest) {
     const stats = {
       totalTickets,
       openTickets,
+      inProgressTickets,
       resolvedTickets: resolvedToday,
-      avgResponseTime: 15, // Placeholder - would need proper calculation
+      avgResponseTime,
       onlineAgents,
+      totalAgents,
       ticketsPerAgent: ticketCounts,
     };
 

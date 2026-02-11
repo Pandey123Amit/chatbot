@@ -1,10 +1,9 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { TopBar } from '@/components/dashboard/TopBar';
 import { TicketList } from '@/components/tickets/TicketList';
-import { Button } from '@/components/ui/button';
 import {
   Select,
   SelectContent,
@@ -18,10 +17,20 @@ export default function AdminTicketsPage() {
   const router = useRouter();
   const [statusFilter, setStatusFilter] = useState<string>('all');
   const [channelFilter, setChannelFilter] = useState<string>('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
+
+  const handleSearch = useCallback((query: string) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setSearchQuery(query);
+    }, 300);
+  }, []);
 
   const filters: Record<string, string> = {};
   if (statusFilter !== 'all') filters.status = statusFilter;
   if (channelFilter !== 'all') filters.channel = channelFilter;
+  if (searchQuery) filters.search = searchQuery;
 
   const { data: tickets, isLoading } = useTickets(
     Object.keys(filters).length > 0 ? filters : undefined
@@ -29,7 +38,7 @@ export default function AdminTicketsPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <TopBar title="All Tickets" showSearch />
+      <TopBar title="All Tickets" showSearch onSearch={handleSearch} />
       <div className="flex-1 p-6">
         <div className="flex items-center gap-4 mb-6">
           <Select value={statusFilter} onValueChange={setStatusFilter}>

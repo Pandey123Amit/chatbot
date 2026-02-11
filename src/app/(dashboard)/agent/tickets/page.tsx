@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import { TopBar } from '@/components/dashboard/TopBar';
 import { TicketList } from '@/components/tickets/TicketList';
@@ -10,8 +10,20 @@ import { useTickets } from '@/hooks/useTickets';
 export default function AgentTicketsPage() {
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('all');
+  const [searchQuery, setSearchQuery] = useState('');
+  const debounceRef = useRef<NodeJS.Timeout | null>(null);
 
-  const { data: allTickets, isLoading } = useTickets({ assignedToMe: 'true' });
+  const handleSearch = useCallback((query: string) => {
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      setSearchQuery(query);
+    }, 300);
+  }, []);
+
+  const filters: Record<string, string> = { assignedToMe: 'true' };
+  if (searchQuery) filters.search = searchQuery;
+
+  const { data: allTickets, isLoading } = useTickets(filters);
 
   const openTickets = allTickets?.filter(
     (t) => ['OPEN', 'ASSIGNED', 'IN_PROGRESS'].includes(t.status)
@@ -25,7 +37,7 @@ export default function AgentTicketsPage() {
 
   return (
     <div className="flex flex-col h-full">
-      <TopBar title="My Tickets" showSearch />
+      <TopBar title="My Tickets" showSearch onSearch={handleSearch} />
       <div className="flex-1 p-6">
         <Tabs value={activeTab} onValueChange={setActiveTab}>
           <TabsList>
