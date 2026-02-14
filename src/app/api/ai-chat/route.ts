@@ -59,6 +59,7 @@ export async function POST(request: NextRequest) {
       isAI: true,
       confidence: aiResponse.confidence,
       sources: aiResponse.sources,
+      isSummary: aiResponse.isSummary,
     });
   } catch (error) {
     console.error("AI Chat API error:", error);

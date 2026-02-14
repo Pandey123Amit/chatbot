@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { Bot, Send, User, UserCircle, Loader2, ArrowRight, ExternalLink } from 'lucide-react';
+import { Bot, Send, User, UserCircle, Loader2, ArrowRight, ExternalLink, ClipboardCopy, Mail, FileText } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface Message {
@@ -14,6 +14,7 @@ interface Message {
   content: string;
   sender: 'user' | 'ai' | 'system';
   timestamp: Date;
+  isSummary?: boolean;
 }
 
 interface ChatHistory {
@@ -43,13 +44,34 @@ export default function AIChatPage() {
       setMessages([
         {
           id: 'welcome',
-          content: "Hello! I'm RemoteStateBot, your AI assistant for RemoteState. I can help you with questions about our services, technologies, pricing, engagement models, and more. How can I assist you today?",
+          content: "Hello! I'm RemoteStateBot, your AI assistant for RemoteState. I can help you with questions about our services, technologies, pricing, and more. You can also tell me about a project idea and I'll help you define the requirements!",
           sender: 'ai',
           timestamp: new Date(),
         },
       ]);
     }
   }, []);
+
+  // Copy summary to clipboard
+  const handleCopySummary = async (content: string) => {
+    try {
+      await navigator.clipboard.writeText(content);
+    } catch {
+      const textarea = document.createElement('textarea');
+      textarea.value = content;
+      document.body.appendChild(textarea);
+      textarea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textarea);
+    }
+  };
+
+  // Email summary to team
+  const handleEmailSummary = (content: string) => {
+    const subject = encodeURIComponent('Project Requirements Summary \u2014 RemoteState Discovery');
+    const body = encodeURIComponent(content);
+    window.open(`mailto:[email protected]?subject=${subject}&body=${body}`, '_blank');
+  };
 
   // Handle query parameter for quick questions
   useEffect(() => {
@@ -92,6 +114,7 @@ export default function AIChatPage() {
           content: cleanResponse,
           sender: 'ai',
           timestamp: new Date(),
+          isSummary: data.isSummary || false,
         },
       ]);
 
@@ -171,6 +194,26 @@ export default function AIChatPage() {
     window.open('https://www.remotestate.com/contactus', '_blank');
   };
 
+  // Render URL-aware text content
+  const renderMessageContent = (content: string) => {
+    return content.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
+      part.match(/^https?:\/\//) ? (
+        <a
+          key={i}
+          href={part}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="underline font-medium inline-flex items-center gap-1"
+        >
+          {part}
+          <ExternalLink className="h-3 w-3 inline" />
+        </a>
+      ) : (
+        <span key={i}>{part}</span>
+      )
+    );
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
       <div className="container mx-auto py-8 px-4 max-w-3xl">
@@ -180,7 +223,7 @@ export default function AIChatPage() {
             RemoteState Support
           </h1>
           <p className="text-muted-foreground">
-            Chat with our AI assistant - I&apos;m here to help 24/7
+            Ask questions or discuss a project idea &mdash; I&apos;m here to help 24/7
           </p>
         </div>
 
@@ -211,41 +254,62 @@ export default function AIChatPage() {
                       </div>
                     )}
 
-                    <div
-                      className={cn(
-                        'max-w-[75%] rounded-lg px-4 py-2',
-                        msg.sender === 'user'
-                          ? 'bg-blue-600 text-white'
-                          : msg.sender === 'system'
-                          ? 'bg-gray-100 text-gray-600 text-center text-sm w-full max-w-full'
-                          : 'bg-gray-100 text-gray-900'
-                      )}
-                    >
-                      <p className="text-sm whitespace-pre-wrap">
-                        {msg.content.split(/(https?:\/\/[^\s]+)/g).map((part, i) =>
-                          part.match(/^https?:\/\//) ? (
-                            <a
-                              key={i}
-                              href={part}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="underline font-medium inline-flex items-center gap-1"
-                            >
-                              {part}
-                              <ExternalLink className="h-3 w-3 inline" />
-                            </a>
-                          ) : (
-                            <span key={i}>{part}</span>
-                          )
+                    {/* Summary card rendering */}
+                    {msg.isSummary ? (
+                      <div className="max-w-[85%] rounded-lg border-2 border-emerald-200 bg-emerald-50 px-4 py-3">
+                        <div className="flex items-center gap-2 mb-2 text-emerald-800 font-semibold">
+                          <FileText className="h-4 w-4" />
+                          Project Requirements Summary
+                        </div>
+                        <p className="text-sm whitespace-pre-wrap text-gray-900">
+                          {renderMessageContent(msg.content)}
+                        </p>
+                        <div className="flex gap-2 mt-3 pt-2 border-t border-emerald-200">
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                            onClick={() => handleCopySummary(msg.content)}
+                          >
+                            <ClipboardCopy className="h-3 w-3 mr-1" />
+                            Copy to Clipboard
+                          </Button>
+                          <Button
+                            variant="outline"
+                            size="sm"
+                            className="text-xs"
+                            onClick={() => handleEmailSummary(msg.content)}
+                          >
+                            <Mail className="h-3 w-3 mr-1" />
+                            Email to Team
+                          </Button>
+                        </div>
+                        <p className="text-xs text-gray-400 mt-2">
+                          {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                    ) : (
+                      <div
+                        className={cn(
+                          'max-w-[75%] rounded-lg px-4 py-2',
+                          msg.sender === 'user'
+                            ? 'bg-blue-600 text-white'
+                            : msg.sender === 'system'
+                            ? 'bg-gray-100 text-gray-600 text-center text-sm w-full max-w-full'
+                            : 'bg-gray-100 text-gray-900'
                         )}
-                      </p>
-                      <p className={cn(
-                        'text-xs mt-1',
-                        msg.sender === 'user' ? 'text-blue-100' : 'text-gray-400'
-                      )}>
-                        {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                      </p>
-                    </div>
+                      >
+                        <p className="text-sm whitespace-pre-wrap">
+                          {renderMessageContent(msg.content)}
+                        </p>
+                        <p className={cn(
+                          'text-xs mt-1',
+                          msg.sender === 'user' ? 'text-blue-100' : 'text-gray-400'
+                        )}>
+                          {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        </p>
+                      </div>
+                    )}
 
                     {msg.sender === 'user' && (
                       <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
@@ -310,7 +374,7 @@ export default function AIChatPage() {
           <div className="flex flex-wrap gap-2">
             {[
               'What services do you offer?',
-              'Hire a development team',
+              'I want to build an app',
               'Pricing & engagement',
               'AI & ML solutions',
             ].map((question) => (

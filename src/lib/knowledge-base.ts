@@ -160,6 +160,28 @@ export const groceryKnowledgeBase = [
     answer: "Yes! We love working with startups. Our services are particularly well-suited for startups: fast MVP development, flexible team scaling as you grow, the 14-day risk-free trial to minimize risk, predictable pricing, and experienced teams that have launched 140+ products. We understand the startup pace and can help you go from idea to launch quickly."
   },
 
+  // Discovery & project scoping
+  {
+    topic: "discovery_process",
+    question: "How does the project discovery process work?",
+    answer: "Our discovery process helps define your project requirements before development begins. We walk through key areas: project vision and goals, target users, MVP vs full product scope, core features, timeline, budget, technology preferences, design needs, and integrations. This structured approach ensures we understand your needs thoroughly and can provide an accurate proposal. The output is a clear requirements summary that serves as the foundation for development planning."
+  },
+  {
+    topic: "mvp_vs_full_product",
+    question: "Should I build an MVP or a full product?",
+    answer: "We recommend starting with an MVP (Minimum Viable Product) for most new projects. An MVP focuses on core features that validate your idea with real users, typically taking 4-8 weeks to build. This approach reduces risk, saves budget, and lets you gather user feedback early. Once validated, you can iterate toward a full product with confidence. For established businesses with clear requirements, a full product build may make more sense. We help you decide the right approach during our discovery process."
+  },
+  {
+    topic: "project_scoping",
+    question: "How do you scope a software project?",
+    answer: "Project scoping at RemoteState involves understanding your vision, identifying target users, defining core features, setting priorities (must-have vs nice-to-have), evaluating technology options, estimating timeline and budget, and planning for integrations with existing systems. We use a structured discovery conversation to gather all requirements, then produce a detailed project requirements summary. This ensures alignment between your expectations and our delivery plan."
+  },
+  {
+    topic: "reference_apps",
+    question: "Can I share reference apps or examples of what I want to build?",
+    answer: "Absolutely! Sharing reference apps, competitor products, or design inspirations is incredibly helpful during discovery. It gives us a concrete understanding of the look, feel, and functionality you're aiming for. You can share URLs, screenshots, or descriptions of apps you admire. We'll use these references to better estimate scope, suggest improvements, and align on your vision."
+  },
+
   // Certifications & recognition
   {
     topic: "certifications",
