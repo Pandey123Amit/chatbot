@@ -8,7 +8,7 @@ export type Channel = 'CHAT' | 'EMAIL' | 'WHATSAPP';
 
 export type AgentStatus = 'ONLINE' | 'OFFLINE' | 'BUSY';
 
-export type ChatSessionStatus = 'WAITING' | 'ACTIVE' | 'ENDED' | 'CONVERTED';
+export type ChatSessionStatus = 'WAITING' | 'ACTIVE' | 'AI_ACTIVE' | 'ENDED' | 'CONVERTED';
 
 export interface User {
   id: string;
@@ -55,6 +55,7 @@ export interface Message {
 export interface ChatSession {
   id: string;
   status: ChatSessionStatus;
+  isAISession?: boolean;
   startedAt: Date;
   endedAt?: Date | null;
   customerId: string;

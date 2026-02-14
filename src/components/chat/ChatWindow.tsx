@@ -9,7 +9,7 @@ import { Avatar, AvatarFallback } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { formatDistanceToNow } from 'date-fns';
 import type { ChatSession, ChatMessage } from '@/types';
-import { Send, Ticket, X } from 'lucide-react';
+import { Send, Ticket, X, Bot, Hand } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface ChatWindowProps {
@@ -18,6 +18,7 @@ interface ChatWindowProps {
   onSendMessage: (content: string) => void;
   onConvertToTicket: () => void;
   onEndChat: () => void;
+  onClaimSession?: () => void;
 }
 
 export function ChatWindow({
@@ -26,6 +27,7 @@ export function ChatWindow({
   onSendMessage,
   onConvertToTicket,
   onEndChat,
+  onClaimSession,
 }: ChatWindowProps) {
   const [message, setMessage] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -68,8 +70,9 @@ export function ChatWindow({
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <Badge variant={session.status === 'ACTIVE' ? 'default' : 'secondary'}>
-            {session.status}
+          <Badge variant={session.status === 'ACTIVE' ? 'default' : session.status === 'AI_ACTIVE' ? 'outline' : 'secondary'}
+            className={session.status === 'AI_ACTIVE' ? 'border-blue-300 text-blue-600' : ''}>
+            {session.status === 'AI_ACTIVE' ? 'AI Active' : session.status}
           </Badge>
           <Button variant="outline" size="sm" onClick={onConvertToTicket}>
             <Ticket className="h-4 w-4 mr-1" />
@@ -126,21 +129,38 @@ export function ChatWindow({
         </div>
       </ScrollArea>
 
-      <CardContent className="p-4 border-t">
-        <div className="flex gap-2">
-          <Textarea
-            placeholder="Type your message..."
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyPress={handleKeyPress}
-            rows={2}
-            className="resize-none"
-          />
-          <Button onClick={handleSend} disabled={!message.trim()}>
-            <Send className="h-4 w-4" />
-          </Button>
-        </div>
-      </CardContent>
+      {session.status === 'AI_ACTIVE' ? (
+        <CardContent className="p-4 border-t">
+          <div className="flex items-center justify-between gap-3 rounded-lg bg-blue-50 border border-blue-200 px-4 py-3">
+            <div className="flex items-center gap-2 text-sm text-blue-700">
+              <Bot className="h-4 w-4 shrink-0" />
+              <span>This conversation is being handled by AI</span>
+            </div>
+            {onClaimSession && (
+              <Button size="sm" variant="default" onClick={onClaimSession}>
+                <Hand className="h-4 w-4 mr-1" />
+                Take Over
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      ) : (
+        <CardContent className="p-4 border-t">
+          <div className="flex gap-2">
+            <Textarea
+              placeholder="Type your message..."
+              value={message}
+              onChange={(e) => setMessage(e.target.value)}
+              onKeyPress={handleKeyPress}
+              rows={2}
+              className="resize-none"
+            />
+            <Button onClick={handleSend} disabled={!message.trim()}>
+              <Send className="h-4 w-4" />
+            </Button>
+          </div>
+        </CardContent>
+      )}
     </Card>
   );
 }

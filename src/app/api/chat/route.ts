@@ -82,7 +82,7 @@ export async function GET(req: NextRequest) {
       };
     } else if (session.user.role === 'ADMIN') {
       where = {
-        status: { in: ['WAITING', 'ACTIVE'] },
+        status: { in: ['WAITING', 'ACTIVE', 'AI_ACTIVE'] },
       };
     } else {
       where = {
@@ -93,7 +93,14 @@ export async function GET(req: NextRequest) {
 
     const chatSessions = await prisma.chatSession.findMany({
       where,
-      include: {
+      select: {
+        id: true,
+        status: true,
+        isAISession: true,
+        startedAt: true,
+        endedAt: true,
+        customerId: true,
+        agentId: true,
         customer: {
           select: { id: true, name: true, email: true },
         },

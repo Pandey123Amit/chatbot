@@ -45,10 +45,20 @@ export function ChatSessionCard({
             {session.status === 'ACTIVE' && (
               <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
             )}
+            {session.status === 'AI_ACTIVE' && (
+              <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-blue-500 border-2 border-background" />
+            )}
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center justify-between">
-              <h4 className="font-medium truncate">{session.customer?.name}</h4>
+              <div className="flex items-center gap-1.5 min-w-0">
+                <h4 className="font-medium truncate">{session.customer?.name}</h4>
+                {session.isAISession && (
+                  <Badge variant="outline" className="shrink-0 text-[10px] px-1.5 py-0 h-4 border-blue-300 text-blue-600">
+                    AI
+                  </Badge>
+                )}
+              </div>
               {unreadCount > 0 && (
                 <Badge variant="destructive" className="h-5 w-5 p-0 flex items-center justify-center">
                   {unreadCount}

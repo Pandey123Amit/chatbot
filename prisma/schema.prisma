@@ -43,6 +43,7 @@ enum AgentStatus {
 enum ChatSessionStatus {
   WAITING
   ACTIVE
+  AI_ACTIVE
   ENDED
   CONVERTED
 }
@@ -123,6 +124,7 @@ model Message {
 model ChatSession {
   id          String            @id @default(cuid())
   status      ChatSessionStatus @default(WAITING)
+  isAISession Boolean           @default(false)
   startedAt   DateTime          @default(now())
   endedAt     DateTime?
 
@@ -139,6 +141,7 @@ model ChatSession {
   @@index([status])
   @@index([agentId])
   @@index([customerId])
+  @@index([isAISession])
 }
 
 model ChatMessage {

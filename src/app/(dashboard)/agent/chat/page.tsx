@@ -141,6 +141,27 @@ export default function AgentChatPage() {
     }
   };
 
+  const handleClaimSession = async () => {
+    if (!selectedSession) return;
+    try {
+      const res = await fetch(`/api/chat/${selectedSession.id}/claim`, {
+        method: 'POST',
+      });
+      if (res.ok) {
+        const data = await res.json();
+        // Update the session in local state
+        setSelectedSession(data.chatSession);
+        setChatSessions((prev) =>
+          prev.map((s) => (s.id === data.chatSession.id ? data.chatSession : s))
+        );
+        // Re-fetch messages to include the system "took over" message
+        fetchMessages(selectedSession.id);
+      }
+    } catch (error) {
+      console.error('Failed to claim session:', error);
+    }
+  };
+
   const handleEndChat = async () => {
     if (!selectedSession) return;
     try {
@@ -212,6 +233,7 @@ export default function AgentChatPage() {
               onSendMessage={handleSendMessage}
               onConvertToTicket={handleConvertToTicket}
               onEndChat={handleEndChat}
+              onClaimSession={handleClaimSession}
             />
           ) : (
             <div className="flex items-center justify-center h-full">

@@ -1,15 +1,42 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getAIResponse, getQuickResponse, ChatHistory } from "@/lib/ai-agent";
 import { prisma } from "@/lib/db";
+import { WEBSITE_VISITOR_EMAIL } from "@/lib/constants";
+import { autoAssignChat } from "@/lib/auto-assign";
+import { emitNewChatSession, emitChatMessage } from "@/lib/socket-handlers";
+
+// Create a new AI chat session for anonymous website visitors
+async function createAISession(): Promise<string> {
+  const visitor = await prisma.user.findUnique({
+    where: { email: WEBSITE_VISITOR_EMAIL },
+  });
+
+  if (!visitor) {
+    throw new Error(
+      "Sentinel user not found. Run prisma db seed to create it."
+    );
+  }
+
+  const session = await prisma.chatSession.create({
+    data: {
+      customerId: visitor.id,
+      status: "AI_ACTIVE",
+      isAISession: true,
+    },
+  });
+
+  return session.id;
+}
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { message, sessionId, chatHistory = [] } = body as {
+    const { message, chatHistory = [] } = body as {
       message: string;
       sessionId?: string;
       chatHistory?: ChatHistory[];
     };
+    let { sessionId } = body as { sessionId?: string };
 
     if (!message || typeof message !== "string") {
       return NextResponse.json(
@@ -18,13 +45,15 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Auto-create session on first message
+    if (!sessionId) {
+      sessionId = await createAISession();
+    }
+
     // Check for quick responses first (greetings, thanks, etc.)
     const quickResponse = getQuickResponse(message);
     if (quickResponse) {
-      // Save AI message to session if sessionId provided
-      if (sessionId) {
-        await saveAIMessage(sessionId, message, quickResponse, false);
-      }
+      await saveAIMessage(sessionId, message, quickResponse, false);
 
       return NextResponse.json({
         response: quickResponse,
@@ -32,6 +61,7 @@ export async function POST(request: NextRequest) {
         isAI: true,
         confidence: 1,
         sources: [],
+        sessionId,
       });
     }
 
@@ -42,14 +72,16 @@ export async function POST(request: NextRequest) {
       process.env.OPENAI_API_KEY
     );
 
-    // Save AI message to session if sessionId provided
-    if (sessionId) {
-      await saveAIMessage(
-        sessionId,
-        message,
-        aiResponse.response,
-        aiResponse.shouldEscalate
-      );
+    await saveAIMessage(
+      sessionId,
+      message,
+      aiResponse.response,
+      aiResponse.shouldEscalate
+    );
+
+    // On escalation, try to auto-assign an agent
+    if (aiResponse.shouldEscalate) {
+      await handleEscalation(sessionId);
     }
 
     return NextResponse.json({
@@ -60,6 +92,7 @@ export async function POST(request: NextRequest) {
       confidence: aiResponse.confidence,
       sources: aiResponse.sources,
       isSummary: aiResponse.isSummary,
+      sessionId,
     });
   } catch (error) {
     console.error("AI Chat API error:", error);
@@ -98,19 +131,40 @@ async function saveAIMessage(
       data: {
         chatSessionId: sessionId,
         content: aiResponse,
-        senderType: "SYSTEM", // Using SYSTEM for AI messages
+        senderType: "SYSTEM",
       },
     });
-
-    // If escalated, update session status to WAITING (for human agent)
-    if (escalated) {
-      await prisma.chatSession.update({
-        where: { id: sessionId },
-        data: { status: "WAITING" },
-      });
-    }
   } catch (error) {
     console.error("Error saving AI message:", error);
+  }
+}
+
+// Handle escalation: update status, auto-assign, notify agent
+async function handleEscalation(sessionId: string) {
+  try {
+    await prisma.chatSession.update({
+      where: { id: sessionId },
+      data: { status: "WAITING" },
+    });
+
+    const assignedSession = await autoAssignChat(sessionId);
+
+    if (assignedSession?.agentId) {
+      // Create system message about assignment
+      const systemMsg = await prisma.chatMessage.create({
+        data: {
+          chatSessionId: sessionId,
+          content: `${assignedSession.agent?.name} has been assigned to this conversation.`,
+          senderType: "SYSTEM",
+        },
+      });
+
+      // Notify the assigned agent via socket
+      emitNewChatSession(assignedSession.agentId, assignedSession);
+      emitChatMessage(sessionId, systemMsg);
+    }
+  } catch (error) {
+    console.error("Error handling escalation:", error);
   }
 }
 

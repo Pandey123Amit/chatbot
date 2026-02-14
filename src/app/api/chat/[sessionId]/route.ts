@@ -47,7 +47,8 @@ export async function GET(
 
     if (
       session.user.role === 'AGENT' &&
-      chatSession.agentId !== session.user.id
+      chatSession.agentId !== session.user.id &&
+      !chatSession.isAISession
     ) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }

@@ -145,6 +145,20 @@ async function main() {
   });
   console.log('Created ticket:', ticket3.ticketNumber);
 
+  // Create Website Visitor sentinel user (for anonymous AI chat sessions)
+  const visitorPassword = await bcrypt.hash('not-a-real-login', 10);
+  const websiteVisitor = await prisma.user.upsert({
+    where: { email: 'website-visitor@system.internal' },
+    update: {},
+    create: {
+      email: 'website-visitor@system.internal',
+      name: 'Website Visitor',
+      password: visitorPassword,
+      role: 'CUSTOMER',
+    },
+  });
+  console.log('Created sentinel user:', websiteVisitor.email);
+
   console.log('Seeding completed!');
   console.log('\nTest Accounts:');
   console.log('Admin: admin@helpdesk.com / admin123');
