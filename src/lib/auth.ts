@@ -8,8 +8,8 @@ export const authOptions: NextAuthOptions = {
     CredentialsProvider({
       name: 'credentials',
       credentials: {
-        email: { label: 'Email', type: 'email' },
-        password: { label: 'Password', type: 'password' },
+        email: { label: 'Email', type: 'email', },
+        password: { label: 'Password', type: 'password', },
       },
       async authorize(credentials) {
         console.log('=== AUTH ATTEMPT ===');

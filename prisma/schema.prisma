@@ -157,3 +157,13 @@ model ChatMessage {
   @@index([chatSessionId])
   @@index([createdAt])
 }
+
+model ChatbotVisitor {
+  id        String   @id @default(cuid())
+  email     String
+  name      String?
+  visitedAt DateTime @default(now())
+
+  @@index([email])
+  @@index([visitedAt])
+}

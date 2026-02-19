@@ -1,228 +1,210 @@
-// Knowledge base for RemoteState helpdesk
+// Knowledge base for Amit Kumar Pandey - Resume Chatbot
 export const groceryKnowledgeBase = [
-  // Services related
+  // Personal & Contact
   {
-    topic: "services_overview",
-    question: "What services does RemoteState offer?",
-    answer: "RemoteState offers a comprehensive range of software engineering services: Mobile App Development (iOS, Android, React Native, Flutter), AI & ML Solutions (Generative AI, AI Agent Development, LLM Implementation), Scalable Team Solutions (Offshore Development Center, Dedicated Teams, IT Staff Augmentation), UI/UX Design, and SaaS Development. We cover 120+ technologies and have launched 140+ products across 25 markets."
+    topic: "personal_info",
+    question: "Who is Amit Kumar Pandey?",
+    answer: "Amit Kumar Pandey is a Back-End Developer with 9+ months of hands-on experience building scalable, high-performance applications using Go, JavaScript, and Python. He is proficient in microservices architecture, Docker, and relational databases (MySQL, PostgreSQL). He is skilled in designing reliable REST APIs, optimizing backend workflows, and building AI-powered applications using LangChain, Claude (Anthropic), and ChatGPT (OpenAI). He is a quick learner with a passion for leveraging emerging technologies including LLMs and data science to drive innovation."
   },
-  {
-    topic: "mobile_development",
-    question: "Do you build mobile apps?",
-    answer: "Yes! We specialize in mobile app development across all major platforms. Our expertise includes iOS Development (Swift), Android Development, React Native for cross-platform apps, and Flutter. We build everything from MVPs to enterprise-grade mobile applications, focusing on performance, user experience, and scalability."
-  },
-  {
-    topic: "ai_ml_services",
-    question: "What AI and ML solutions do you provide?",
-    answer: "We offer cutting-edge AI & ML solutions including: Generative AI development, AI Agent Development, LLM (Large Language Model) Implementation, and Agentic AI solutions. Our team helps businesses integrate AI into their products and workflows, leveraging the latest technologies to deliver intelligent, scalable solutions."
-  },
-  {
-    topic: "saas_development",
-    question: "Can you help build a SaaS product?",
-    answer: "Absolutely! We specialize in SaaS Development with a 72-hour deployment capability. Our team handles the full stack — from architecture and development to deployment and scaling. We work with your timezone for seamless collaboration and provide access to skilled developers who understand SaaS-specific challenges like multi-tenancy, billing, and scalability."
-  },
-  {
-    topic: "ui_ux_design",
-    question: "Do you offer UI/UX design services?",
-    answer: "Yes! Our UI/UX Design services include AI-integrated design workflows, cross-platform UX optimization, location-specific UX tailoring, and modern 3D visual elements. We focus on creating standout user experiences that combine beautiful design with practical usability."
-  },
-
-  // Team & hiring related
-  {
-    topic: "dedicated_teams",
-    question: "Can I hire a dedicated development team?",
-    answer: "Yes! We offer Scalable Team Solutions including: Dedicated Development Teams that work exclusively on your project, Offshore Development Center (ODC) setup, and IT Staff Augmentation to extend your existing team. Our teams consist of senior-level engineering talent, and we offer flexible scaling without long-term commitments."
-  },
-  {
-    topic: "staff_augmentation",
-    question: "How does IT staff augmentation work?",
-    answer: "Our IT Staff Augmentation service lets you extend your existing team with our skilled developers. You get senior-level engineers who integrate seamlessly with your workflow. We offer flexible scaling — ramp up or down based on your needs without long-term commitments. We also provide a 14-day risk-free trial so you can evaluate the fit."
-  },
-  {
-    topic: "offshore_development",
-    question: "Do you have an offshore development center?",
-    answer: "Yes! We operate an Offshore Development Center (ODC) with offices in San Francisco, CA and Noida, India. This dual-location setup ensures timezone overlap for effective collaboration. Our ODC model gives you access to a large pool of senior engineering talent at competitive rates while maintaining quality and communication standards."
-  },
-
-  // Technology & expertise
-  {
-    topic: "tech_stack",
-    question: "What technologies do you work with?",
-    answer: "We work with 120+ technologies. Our primary stack includes Go, Node.js, and React, but we cover the full spectrum: cloud-native architecture, DevSecOps practices, microservices & containers, mobile technologies (Swift, Kotlin, React Native, Flutter), AI/ML frameworks, and modern frontend/backend technologies. We choose the best technology for each project's specific needs."
-  },
-  {
-    topic: "cloud_devops",
-    question: "Do you offer cloud and DevOps services?",
-    answer: "Yes! We practice cloud-native architecture and DevSecOps by default. Our approach includes resilient microservices architecture, containerization, stable CI/CD processes, and security-by-design principles. We help businesses build, deploy, and scale applications on modern cloud infrastructure with velocity and reliability."
-  },
-
-  // Pricing & engagement
-  {
-    topic: "pricing",
-    question: "What is your pricing model?",
-    answer: "We offer predictable, transparent pricing tailored to your engagement type. Whether it's a fixed-scope project, dedicated team, or staff augmentation, we provide clear pricing with no hidden costs. We also offer a 14-day risk-free trial for team engagements so you can evaluate our work before committing. Contact us at [email protected] for a custom quote."
-  },
-  {
-    topic: "trial_period",
-    question: "Do you offer a trial period?",
-    answer: "Yes! We offer a 14-day risk-free trial for our team engagement models. This lets you work with our developers, evaluate the quality of work, communication, and cultural fit before making any long-term commitment. If you're not satisfied, there's no obligation to continue."
-  },
-  {
-    topic: "engagement_models",
-    question: "What engagement models do you offer?",
-    answer: "We offer flexible engagement models to suit different needs: 1) Fixed-Scope Projects — for well-defined projects with clear deliverables, 2) Dedicated Development Teams — a team that works exclusively on your product, 3) IT Staff Augmentation — extend your team with our developers, 4) Offshore Development Center — a full ODC setup. All models come with flexible scaling and no long-term lock-in."
-  },
-
-  // Company & credentials
-  {
-    topic: "about_company",
-    question: "Tell me about RemoteState",
-    answer: "RemoteState was founded in 2020 to help founders and enterprises ship reliable software faster. We combine product thinking with rigorous engineering to create standout user experiences. Key stats: 140+ products launched, 25 markets served, 98% client retention rate, and 5x faster delivery compared to industry baseline. We serve clients like Pepsi, Dell, IKEA, Prudential, and Indian Railways."
-  },
-  {
-    topic: "clients",
-    question: "Who are your clients?",
-    answer: "We've worked with both Fortune 500 enterprises and innovative startups. Our notable clients include Pepsi, Dell, IKEA, Prudential, Indian Railways, Concord, Nedl, Neptune, Education Planner, Athena Exams, Bicycle Health, COI Energy, Circonomy, Precium, Heal, Logiwise, To & From, Nvest, Renee, Together, and Vorto. We've served 25 markets with a 98% client retention rate."
-  },
-  {
-    topic: "company_values",
-    question: "What makes RemoteState different?",
-    answer: "RemoteState stands out through four core principles: 1) Outcome-Driven Delivery — we focus on measurable impact, not just code, 2) Secure by Design — DevSecOps is integrated from day one, 3) Architecture for Scale — resilient microservices built for growth, 4) Velocity Without Chaos — stable CI/CD processes ensure fast, reliable delivery. We deliver 5x faster than the industry baseline while maintaining a 98% client retention rate."
-  },
-
-  // Contact & support
   {
     topic: "contact_info",
-    question: "How do I contact RemoteState?",
-    answer: "You can reach us through multiple channels: Email: [email protected], Phone (USA): +1-210-972-5958, Phone (India): +91-977-676-7574. Our offices are in San Francisco, CA 94102 and Noida, Uttar Pradesh 201304. You can also reach out through our website at remotestate.com."
+    question: "How can I contact Amit?",
+    answer: "You can reach Amit at: Email: pandey.amit1598@gmail.com, Phone: +91 8986605695, GitHub: amit_pandey, LinkedIn: amit_pandey. You can also download his full resume at: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
   },
   {
-    topic: "office_locations",
-    question: "Where are your offices located?",
-    answer: "We have two office locations: 1) San Francisco, CA 94102, USA — serving North American clients with local presence, 2) Noida, Uttar Pradesh 201304, India — our development center with a large engineering team. This dual-location setup provides timezone overlap and ensures seamless collaboration across geographies."
-  },
-  {
-    topic: "get_started",
-    question: "How do I get started with RemoteState?",
-    answer: "Getting started is easy! 1) Reach out to us at [email protected] or call +1-210-972-5958 (USA) / +91-977-676-7574 (India), 2) We'll discuss your project requirements and goals, 3) We propose the best engagement model and team composition, 4) Start with a 14-day risk-free trial for team engagements. We can have your project kicked off quickly — our SaaS teams can deploy in as fast as 72 hours."
+    topic: "resume_download",
+    question: "Can I download Amit's resume?",
+    answer: "Yes! You can download Amit Kumar Pandey's full resume (PDF) here: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
   },
 
-  // Project process
+  // Professional Summary
   {
-    topic: "project_timeline",
-    question: "How long does a typical project take?",
-    answer: "Project timelines vary based on scope and complexity. For SaaS products, we can deploy in as fast as 72 hours for initial setups. MVPs typically take 4-8 weeks. Full product development varies by complexity. We deliver 5x faster than the industry baseline thanks to our streamlined processes and experienced teams. Contact us to discuss your specific project timeline."
-  },
-  {
-    topic: "project_process",
-    question: "What is your development process?",
-    answer: "Our development process is outcome-driven: 1) Discovery & Planning — understanding your goals, requirements, and constraints, 2) Architecture & Design — building scalable, secure architecture with great UX, 3) Agile Development — iterative sprints with continuous delivery, 4) Quality Assurance — rigorous testing integrated throughout, 5) Deployment & Support — CI/CD pipelines for reliable releases. We practice DevSecOps and maintain transparent communication throughout."
-  },
-  {
-    topic: "communication",
-    question: "How do you handle communication and project updates?",
-    answer: "We prioritize transparent, regular communication: daily standups, weekly progress reports, and real-time access to project management tools. Our dual-office setup (San Francisco + Noida) ensures timezone overlap for live collaboration. We adapt to your preferred communication tools — Slack, Teams, Jira, or others. You'll always know where your project stands."
+    topic: "professional_summary",
+    question: "What is Amit's professional summary?",
+    answer: "Amit is a Back-End Developer with 9+ months of hands-on experience building scalable, high-performance applications using Go, JavaScript, and Python. He is proficient in microservices architecture, Docker, and relational databases (MySQL, PostgreSQL). Skilled in designing reliable REST APIs, optimizing backend workflows, and building AI-powered applications using LangChain, Claude (Anthropic), and ChatGPT (OpenAI). Quick learner with a passion for leveraging emerging technologies including LLMs and data science."
   },
 
-  // Quality & security
+  // Technical Skills
   {
-    topic: "quality_assurance",
-    question: "How do you ensure code quality?",
-    answer: "Quality is built into our process: code reviews on every PR, automated testing (unit, integration, e2e), CI/CD pipelines for consistent deployments, DevSecOps security practices, and senior-level engineers on every project. We also conduct regular architecture reviews and performance audits. Our 98% client retention rate reflects our commitment to quality."
+    topic: "programming_languages",
+    question: "What programming languages does Amit know?",
+    answer: "Amit is proficient in the following programming languages: Go (Golang), JavaScript, TypeScript, Python, HTML, CSS, and SQL."
   },
   {
-    topic: "security_practices",
-    question: "How do you handle security?",
-    answer: "Security is a core principle at RemoteState — we're 'Secure by Design'. We integrate DevSecOps practices from day one, including: secure coding standards, automated security scanning in CI/CD, regular vulnerability assessments, data protection compliance, and secure infrastructure practices. We build resilient systems that protect your business and users."
-  },
-
-  // Support & maintenance
-  {
-    topic: "post_launch_support",
-    question: "Do you provide support after launch?",
-    answer: "Yes! We provide comprehensive post-launch support including: bug fixes and maintenance, performance monitoring and optimization, feature enhancements, infrastructure management, and scaling support as your user base grows. We offer flexible support plans tailored to your needs. Our goal is to be your long-term technology partner."
+    topic: "frameworks_libraries",
+    question: "What frameworks and libraries does Amit use?",
+    answer: "Amit works with Node.js, Express.js, React.js, LangChain, NumPy, and Pandas."
   },
   {
-    topic: "scaling",
-    question: "Can you help scale my product?",
-    answer: "Absolutely! Scaling is one of our core strengths. Our 'Architecture for Scale' approach means we build with growth in mind from the start — resilient microservices, containerization, cloud-native infrastructure, and performance optimization. Whether you need to scale your team, your infrastructure, or both, we provide flexible solutions without long-term commitments."
-  },
-
-  // Industry expertise
-  {
-    topic: "industries",
-    question: "What industries do you serve?",
-    answer: "We serve a wide range of industries including: Healthcare (Bicycle Health, Heal), Energy (COI Energy), Finance & Insurance (Prudential, Nvest), Education (Education Planner, Athena Exams), Retail & FMCG (Pepsi, IKEA), Technology (Dell), Logistics (Vorto, Indian Railways), and Sustainability (Circonomy). Our diverse experience across 25 markets helps us bring cross-industry insights to every project."
+    topic: "ai_llm_skills",
+    question: "What AI and LLM tools does Amit work with?",
+    answer: "Amit has experience with Claude (Anthropic), ChatGPT (OpenAI), AnthropicAI API, OpenAI API, LangChain, and Prompt Engineering. He has built AI-powered applications integrating these tools for intelligent query handling and automated responses."
   },
   {
-    topic: "startup_services",
-    question: "Do you work with startups?",
-    answer: "Yes! We love working with startups. Our services are particularly well-suited for startups: fast MVP development, flexible team scaling as you grow, the 14-day risk-free trial to minimize risk, predictable pricing, and experienced teams that have launched 140+ products. We understand the startup pace and can help you go from idea to launch quickly."
-  },
-
-  // Discovery & project scoping
-  {
-    topic: "discovery_process",
-    question: "How does the project discovery process work?",
-    answer: "Our discovery process helps define your project requirements before development begins. We walk through key areas: project vision and goals, target users, MVP vs full product scope, core features, timeline, budget, technology preferences, design needs, and integrations. This structured approach ensures we understand your needs thoroughly and can provide an accurate proposal. The output is a clear requirements summary that serves as the foundation for development planning."
+    topic: "databases",
+    question: "What databases does Amit work with?",
+    answer: "Amit is experienced with PostgreSQL, MySQL, and SQL Server (SSMS). He has worked on schema design, query optimization, and backup processes."
   },
   {
-    topic: "mvp_vs_full_product",
-    question: "Should I build an MVP or a full product?",
-    answer: "We recommend starting with an MVP (Minimum Viable Product) for most new projects. An MVP focuses on core features that validate your idea with real users, typically taking 4-8 weeks to build. This approach reduces risk, saves budget, and lets you gather user feedback early. Once validated, you can iterate toward a full product with confidence. For established businesses with clear requirements, a full product build may make more sense. We help you decide the right approach during our discovery process."
+    topic: "tools_platforms",
+    question: "What tools and platforms does Amit use?",
+    answer: "Amit works with Docker, Git, GitHub, Postman, Swagger, Firebase, Railway, and VS Code."
   },
   {
-    topic: "project_scoping",
-    question: "How do you scope a software project?",
-    answer: "Project scoping at RemoteState involves understanding your vision, identifying target users, defining core features, setting priorities (must-have vs nice-to-have), evaluating technology options, estimating timeline and budget, and planning for integrations with existing systems. We use a structured discovery conversation to gather all requirements, then produce a detailed project requirements summary. This ensures alignment between your expectations and our delivery plan."
+    topic: "core_competencies",
+    question: "What are Amit's core competencies?",
+    answer: "Amit's core competencies include RESTful APIs, Microservices, JWT Authentication, OAuth, Goroutines, Concurrency, API Documentation, Unit Testing, Cloud Deployment, OOP, and Data Structures & Algorithms."
   },
   {
-    topic: "reference_apps",
-    question: "Can I share reference apps or examples of what I want to build?",
-    answer: "Absolutely! Sharing reference apps, competitor products, or design inspirations is incredibly helpful during discovery. It gives us a concrete understanding of the look, feel, and functionality you're aiming for. You can share URLs, screenshots, or descriptions of apps you admire. We'll use these references to better estimate scope, suggest improvements, and align on your vision."
+    topic: "technical_skills_overview",
+    question: "What are Amit's technical skills?",
+    answer: "Amit's technical skills span: Languages (Go, JavaScript, TypeScript, Python, HTML, CSS, SQL), Frameworks (Node.js, Express.js, React.js, LangChain, NumPy, Pandas), AI & LLM Tools (Claude, ChatGPT, AnthropicAI API, OpenAI API, LangChain, Prompt Engineering), Databases (PostgreSQL, MySQL, SQL Server), Tools (Docker, Git, GitHub, Postman, Swagger, Firebase, Railway, VS Code), and Core Competencies (RESTful APIs, Microservices, JWT Auth, OAuth, Goroutines, Concurrency, Cloud Deployment, OOP, DSA)."
   },
 
-  // Certifications & recognition
+  // Work Experience - Remote State
+  {
+    topic: "current_role",
+    question: "What is Amit's current job?",
+    answer: "Amit currently works as a Software Engineer at Remote State (July 2025 – Present, Remote). He delivers core backend systems for multiple products including Precium (hotel pricing engine), serving thousands of active users. He engineers scalable microservices in Golang with PostgreSQL and Docker, leveraging Goroutines and Channels to support high-concurrency workloads and reduce request latency by 40%."
+  },
+  {
+    topic: "remote_state_experience",
+    question: "What did Amit do at Remote State?",
+    answer: "At Remote State (Software Engineer, July 2025 – Present), Amit: (1) Delivered core backend systems for products including Precium hotel pricing engine, serving thousands of users, (2) Engineered scalable microservices in Golang with PostgreSQL and Docker, using Goroutines and Channels to reduce request latency by 40%, (3) Optimized SQL queries and backend APIs during high-traffic periods, cutting response times by 60% and reducing database load, (4) Built and deployed containerized services with Docker for reliability and scalability, (5) Collaborated with cross-functional teams (Frontend, Product, QA) to deliver features like hotel pricing tool and HRMS modules."
+  },
+  {
+    topic: "precium_project",
+    question: "Tell me about the Precium project",
+    answer: "Precium is a Hotel Pricing Engine that Amit built at Remote State. Key achievements: (1) Built a pricing recommendation engine in Golang and PostgreSQL to automate daily rate updates, improving pricing accuracy by 25%, (2) Designed a time-based multiplier system for dynamic promotions, reducing manual pricing adjustments by 80%, (3) Enhanced system stability with structured error handling and logging, lowering production incidents by 30%."
+  },
+
+  // Work Experience - Acods360
+  {
+    topic: "acods360_experience",
+    question: "What did Amit do at Acods360?",
+    answer: "At Acods360 (Junior Software Engineer, December 2024 – July 2025, Remote), Amit: (1) Developed and maintained RESTful APIs and integrated SOAP-based web services for seamless data exchange and legacy system interoperability, (2) Integrated SAP systems with internal platforms for automated data synchronization and reporting, (3) Managed and optimized MySQL and SQL Server databases including schema design, query optimization, and backup processes, (4) Implemented secure, high-availability API endpoints with robust error handling and logging, (5) Built and automated Excel-based business tools and monthly client reports using .NET and SQL."
+  },
+
+  // Work Experience - Instant System
+  {
+    topic: "instant_system_experience",
+    question: "What did Amit do at Instant System?",
+    answer: "At Instant System (Trainee Software Engineer, May 2024 – November 2024, Remote), Amit: (1) Learned and applied database design, management, and optimization using MySQL under senior developer guidance, (2) Gained hands-on exposure to collaborative development practices including Git and GitHub for version control."
+  },
+
+  // Work Experience Overview
+  {
+    topic: "work_experience_overview",
+    question: "What is Amit's work experience?",
+    answer: "Amit has professional experience across three roles: (1) Software Engineer at Remote State (July 2025 – Present) — building scalable microservices in Golang, delivering products like Precium hotel pricing engine, (2) Junior Software Engineer at Acods360 (December 2024 – July 2025) — developing RESTful APIs, SAP integration, database management, (3) Trainee Software Engineer at Instant System (May 2024 – November 2024) — database design and version control fundamentals."
+  },
+
+  // Projects
+  {
+    topic: "helpdesk_project",
+    question: "Tell me about the AI Helpdesk Chatbot project",
+    answer: "Amit built and deployed an AI-powered helpdesk chatbot using LangChain and JavaScript, integrating Claude (Anthropic) and ChatGPT (OpenAI) APIs for intelligent natural language query handling. Key details: (1) Used AnthropicAI and OpenAI APIs with LangChain's chain and prompt templating for multi-turn conversations and context retention, (2) Deployed on Railway with zero-downtime availability and CI/CD integration, (3) Designed RESTful API endpoints connecting frontend with LangChain-powered backend. Live at: https://helpdesk-app-production-44e4.up.railway.app"
+  },
+  {
+    topic: "restaurant_project",
+    question: "Tell me about the Restaurant Management System project",
+    answer: "Amit built a full-stack restaurant management system with: (1) React.js, Tailwind CSS, and Zustand on the frontend, (2) Role-based backend using OAuth authentication and RESTful APIs, (3) Multi-role access control (admin, sub-admin, user) with resource-level permissions, (4) APIs for restaurant/dish listings, user management, and geolocation-based distance calculation, (5) Secure OAuth login/logout flows with protected routes. GitHub: https://github.com/amit_pandey"
+  },
+  {
+    topic: "notes_app_project",
+    question: "Tell me about the ReactJS Notes App project",
+    answer: "Amit built a dynamic Notes App using React.js showcasing: (1) Component-based architecture and modern frontend development, (2) React Query and Axios for efficient data fetching, caching, and API integration, (3) React Hooks (useEffect, useCallback) for side effect management and rendering optimization. GitHub: https://github.com/amit_pandey"
+  },
+  {
+    topic: "projects_overview",
+    question: "What projects has Amit built?",
+    answer: "Amit has built several notable projects: (1) AI Helpdesk Chatbot — LangChain + JavaScript with Claude and ChatGPT integration, deployed on Railway, (2) Restaurant Management System — Full-stack with React.js, role-based auth, geolocation features, (3) ReactJS Notes App — React.js with React Query, Axios, and modern hooks for optimized performance."
+  },
+
+  // Education
+  {
+    topic: "education",
+    question: "What is Amit's educational background?",
+    answer: "Amit holds: (1) Master of Computer Applications (MCA), 2022–2024, from GL Bajaj Institute of Technology and Management, Greater Noida, (2) Bachelor of Computer Applications (BCA), 2017–2020, from Pranveer Singh Institute of Technology, Kanpur."
+  },
+  {
+    topic: "mca_degree",
+    question: "Where did Amit do his MCA?",
+    answer: "Amit completed his Master of Computer Applications (MCA) from GL Bajaj Institute of Technology and Management, Greater Noida, during 2022–2024."
+  },
+  {
+    topic: "bca_degree",
+    question: "Where did Amit do his BCA?",
+    answer: "Amit completed his Bachelor of Computer Applications (BCA) from Pranveer Singh Institute of Technology, Kanpur, during 2017–2020."
+  },
+
+  // Certifications & Awards
   {
     topic: "certifications",
-    question: "What certifications or recognition does RemoteState have?",
-    answer: "RemoteState is recognized across leading platforms including Google Reviews, Clutch, GoodFirms, and AmbitionBox. Our track record speaks for itself: 140+ products launched, 98% client retention rate, and trusted by enterprises like Pepsi, Dell, IKEA, and Prudential. We maintain high standards of engineering excellence and client satisfaction."
+    question: "What certifications does Amit have?",
+    answer: "Amit has the following certifications and awards: (1) Web Development Bootcamp – Udemy, (2) Learning C++ – LinkedIn Learning, (3) Hackathon Winner – IIMT College."
+  },
+
+  // Strengths & Highlights
+  {
+    topic: "strengths",
+    question: "What are Amit's key strengths?",
+    answer: "Amit's key strengths include: (1) Backend engineering with Go, JavaScript, and Python, (2) Building scalable microservices with Docker and PostgreSQL, (3) AI/LLM application development using LangChain, Claude, and OpenAI, (4) Performance optimization — achieved 40% latency reduction and 60% response time improvement, (5) Quick learner passionate about emerging technologies, (6) Cross-functional collaboration with Frontend, Product, and QA teams."
+  },
+  {
+    topic: "achievements",
+    question: "What are Amit's key achievements?",
+    answer: "Amit's notable achievements include: (1) Reduced request latency by 40% through Goroutines and Channels in Golang, (2) Cut API response times by 60% through SQL and backend optimization, (3) Improved pricing accuracy by 25% with automated recommendation engine, (4) Reduced manual pricing adjustments by 80% with dynamic promotion system, (5) Lowered production incidents by 30% through structured error handling, (6) Won a Hackathon at IIMT College."
+  },
+
+  // Why Hire Amit
+  {
+    topic: "why_hire",
+    question: "Why should we hire Amit?",
+    answer: "Amit brings a strong combination of backend engineering, AI/LLM expertise, and proven impact: (1) Hands-on experience with Go, JavaScript, Python, and modern frameworks, (2) Track record of measurable improvements — 40% latency reduction, 60% faster APIs, 25% better pricing accuracy, (3) AI-powered application development using LangChain, Claude, and OpenAI, (4) Experience with microservices, Docker, and cloud deployment, (5) MCA degree with solid CS fundamentals, (6) Quick learner who thrives in remote, cross-functional teams."
+  },
+
+  // Availability & Preferences
+  {
+    topic: "work_preferences",
+    question: "Is Amit available for new opportunities?",
+    answer: "For information about Amit's availability and work preferences, please reach out directly via email at pandey.amit1598@gmail.com or phone at +91 8986605695."
+  },
+  {
+    topic: "golang_experience",
+    question: "Tell me about Amit's Golang experience",
+    answer: "Amit has strong Golang experience from his role at Remote State: (1) Engineered scalable microservices in Golang with PostgreSQL and Docker, (2) Used Goroutines and Channels for high-concurrency workloads, reducing request latency by 40%, (3) Built the Precium hotel pricing recommendation engine in Golang, (4) Optimized SQL queries and backend APIs, cutting response times by 60%."
+  },
+  {
+    topic: "api_experience",
+    question: "Tell me about Amit's API development experience",
+    answer: "Amit has extensive API development experience: (1) Built RESTful APIs at Remote State and Acods360, (2) Integrated SOAP-based web services for legacy system interoperability, (3) Designed RESTful endpoints for LangChain-powered AI chatbot backend, (4) Implemented secure API endpoints with JWT Authentication and OAuth, (5) Created API documentation using Postman and Swagger."
   }
 ];
 
 // Categories for the knowledge base
 export const knowledgeCategories = [
-  { id: "services", name: "Services", icon: "code" },
-  { id: "team", name: "Team & Hiring", icon: "users" },
-  { id: "technology", name: "Technology", icon: "cpu" },
-  { id: "pricing", name: "Pricing & Engagement", icon: "credit-card" },
-  { id: "company", name: "About RemoteState", icon: "building" },
-  { id: "contact", name: "Contact & Support", icon: "headphones" },
-  { id: "process", name: "Process & Quality", icon: "settings" },
-  { id: "industries", name: "Industries", icon: "globe" }
+  { id: "personal", name: "About Amit", icon: "user" },
+  { id: "skills", name: "Technical Skills", icon: "code" },
+  { id: "experience", name: "Work Experience", icon: "briefcase" },
+  { id: "projects", name: "Projects", icon: "folder" },
+  { id: "education", name: "Education", icon: "graduation-cap" },
+  { id: "achievements", name: "Achievements", icon: "trophy" },
+  { id: "contact", name: "Contact", icon: "mail" }
 ];
 
-// Escalation triggers - keywords/phrases that should escalate to human agent
+// Escalation triggers - keywords that should offer direct contact
 export const escalationTriggers = [
-  "speak to human",
-  "talk to agent",
-  "real person",
-  "human agent",
-  "talk to someone",
-  "speak to someone",
-  "escalate",
-  "manager",
-  "supervisor",
-  "not helpful",
-  "doesn't help",
-  "useless",
-  "frustrated",
-  "angry",
-  "urgent",
-  "emergency",
-  "legal",
-  "lawyer",
-  "sue",
-  "complaint",
-  "formal complaint"
+  "schedule interview",
+  "book interview",
+  "hire him",
+  "offer letter",
+  "salary expectation",
+  "salary",
+  "compensation",
+  "notice period",
+  "when can he join",
+  "start date",
+  "references",
+  "background check"
 ];

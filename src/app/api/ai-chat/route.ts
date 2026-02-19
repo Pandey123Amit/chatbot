@@ -38,16 +38,16 @@ export async function POST(request: NextRequest) {
     };
     let { sessionId } = body as { sessionId?: string };
 
+    // Auto-create session on first message
+    if (!sessionId) {
+      sessionId = await createAISession();
+    }
+
     if (!message || typeof message !== "string") {
       return NextResponse.json(
         { error: "Message is required" },
         { status: 400 }
       );
-    }
-
-    // Auto-create session on first message
-    if (!sessionId) {
-      sessionId = await createAISession();
     }
 
     // Check for quick responses first (greetings, thanks, etc.)
@@ -91,7 +91,6 @@ export async function POST(request: NextRequest) {
       isAI: true,
       confidence: aiResponse.confidence,
       sources: aiResponse.sources,
-      isSummary: aiResponse.isSummary,
       sessionId,
     });
   } catch (error) {
@@ -100,7 +99,7 @@ export async function POST(request: NextRequest) {
       {
         error: "Failed to process message",
         response:
-          "I apologize, but I'm having trouble right now. Let me connect you with a human agent.",
+          "I apologize, but I'm having trouble right now. Please contact Amit directly at pandey.amit1598@gmail.com.",
         shouldEscalate: true,
         isAI: true,
       },

@@ -47,6 +47,15 @@ export const updateAgentSchema = z.object({
   maxChats: z.number().min(1).max(20).optional(),
 });
 
+export const contactFormSchema = z.object({
+  name: z.string().min(1, 'Name is required'),
+  email: z.string().email('Invalid email address'),
+  phone: z.string().optional(),
+  message: z.string().min(1, 'Message is required'),
+  sessionId: z.string().optional(),
+});
+
+export type ContactFormInput = z.infer<typeof contactFormSchema>;
 export type LoginInput = z.infer<typeof loginSchema>;
 export type RegisterInput = z.infer<typeof registerSchema>;
 export type CreateTicketInput = z.infer<typeof createTicketSchema>;
