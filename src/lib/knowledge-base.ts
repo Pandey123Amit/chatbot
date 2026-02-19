@@ -9,12 +9,12 @@ export const groceryKnowledgeBase = [
   {
     topic: "contact_info",
     question: "How can I contact Amit?",
-    answer: "You can reach Amit at: Email: pandey.amit1598@gmail.com, Phone: +91 8986605695, GitHub: amit_pandey, LinkedIn: amit_pandey. You can also download his full resume at: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
+    answer: "You can reach Amit at: Email: pandey.amit1598@gmail.com, Phone: +91 8986605695, GitHub: amit_pandey, LinkedIn: amit_pandey. You can also download his full resume at: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/a90e5079-2714-4607-8680-184f648d9194-AmitPandey_Resume_ATS__1_.pdf"
   },
   {
     topic: "resume_download",
     question: "Can I download Amit's resume?",
-    answer: "Yes! You can download Amit Kumar Pandey's full resume (PDF) here: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
+    answer: "Yes! You can download Amit Kumar Pandey's full resume (PDF) here: https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/a90e5079-2714-4607-8680-184f648d9194-AmitPandey_Resume_ATS__1_.pdf"
   },
 
   // Professional Summary

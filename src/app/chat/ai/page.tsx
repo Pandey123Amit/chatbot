@@ -316,7 +316,7 @@ function AIChatContent() {
               <a href="https://linkedin.com/in/amit_pandey" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Linkedin className="h-4 w-4" /></a>
               <a href="https://github.com/amit_pandey" target="_blank" rel="noopener noreferrer" className="text-gray-400 hover:text-blue-600 transition-colors"><Github className="h-4 w-4" /></a>
               <a
-                href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
+                href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/a90e5079-2714-4607-8680-184f648d9194-AmitPandey_Resume_ATS__1_.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-gray-400 hover:text-blue-600 transition-colors"
@@ -354,7 +354,7 @@ function AIChatContent() {
             </div>
             <div className="flex items-center gap-2">
               <a
-                href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
+                href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/a90e5079-2714-4607-8680-184f648d9194-AmitPandey_Resume_ATS__1_.pdf"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -499,7 +499,7 @@ function AIChatContent() {
             <a href="https://linkedin.com/in/amit_pandey" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors"><Linkedin className="h-3.5 w-3.5" /></a>
             <a href="https://github.com/amit_pandey" target="_blank" rel="noopener noreferrer" className="hover:text-blue-600 transition-colors"><Github className="h-3.5 w-3.5" /></a>
             <a
-              href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/b516c8c9-6a46-4314-90eb-2fd298c9a443-AmitPandey_new.pdf"
+              href="https://remotestate-website-public.s3.ap-south-1.amazonaws.com/uploads/pdfs/a90e5079-2714-4607-8680-184f648d9194-AmitPandey_Resume_ATS__1_.pdf"
               target="_blank"
               rel="noopener noreferrer"
               className="hover:text-blue-600 transition-colors flex items-center gap-1"
