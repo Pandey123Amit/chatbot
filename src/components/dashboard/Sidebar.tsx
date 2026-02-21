@@ -44,7 +44,7 @@ export function Sidebar({ className }: SidebarProps) {
     <div className={cn('pb-12 w-64 border-r bg-background', className)}>
       <div className="space-y-4 py-4">
         <div className="px-4 py-2">
-          <h2 className="text-lg font-semibold tracking-tight">Helpdesk</h2>
+          <h2 className="text-lg font-semibold tracking-tight">Amit's Resume Assistant</h2>
           <p className="text-sm text-muted-foreground">
             {isAdmin ? 'Admin Panel' : 'Agent Portal'}
           </p>

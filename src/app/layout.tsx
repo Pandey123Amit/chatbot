@@ -14,8 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Helpdesk - Support & Live Chat",
-  description: "Customer support helpdesk with live chat and ticketing system",
+  title: "Amit's Resume Assistant",
+  description: "AI-powered resume assistant for Amit",
 };
 
 export default function RootLayout({
